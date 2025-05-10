@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+/* Theme tokens */
+@theme {
+  /* Light Theme (default) */
+  --color-bg: 242 100% 95%; /* F2F2F2 */
+  --color-text: 0 0% 0%; /* 000000 */
+  --color-primary: 0 0% 0%; /* 000000 */
+  --color-muted: 0 0% 95%; /* F5F5F5 */
+  --color-accent: 0 0% 92%; /* EBEBEB */
+  --font-display: var(
+    --font-beatrice
+  ); /* use the variable from next/font/local */
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    color: hsl(var(--color-text));
+    font-family: var(--font-display);
+  }
+
+  .dark {
+    /* Empty for now */
+  }
+}
+
+/* Optional utility classes */
+@layer utilities {
+  .text-theme {
+    color: hsl(var(--color-text));
+  }
+
+  .text-primary {
+    color: hsl(var(--color-primary));
+  }
+
+  .text-accent {
+    color: hsl(var(--color-accent));
+  }
+}

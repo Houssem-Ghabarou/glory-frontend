@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "Bonjour le mondeee!"
+  },
+  "header": {
+    "home": "Accueil",
+    "collections": "Collection",
+    "new": "Nouveau",
+    "cart": "Panier"
+  }
+}
