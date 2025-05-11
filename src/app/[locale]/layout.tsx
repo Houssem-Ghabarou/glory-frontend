@@ -7,6 +7,8 @@ import Header from "@/components/shared/header/Header";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import backgroundIMage from "@/assets/images/noise4.jpeg";
+import "keen-slider/keen-slider.min.css";
+
 export const metadata: Metadata = {
   title: "GLORY",
   description: "GLORY clothing brand store",
@@ -36,11 +38,10 @@ export default async function RootLayout({
               src={backgroundIMage}
               fill
               alt="hero"
-              className="w-full h-full object-cover object-center"
+              className="absolute top-0 left-0 w-full h-full object-cover object-center -z-10"
             />
 
             {/* Header */}
-
             <Header />
 
             {/* Overlay */}
@@ -48,7 +49,6 @@ export default async function RootLayout({
             <div className="relative z-10">{children}</div>
 
             {/* Footer */}
-
             <Footer />
           </div>
         </NextIntlClientProvider>
