@@ -44,7 +44,12 @@ const ImagesSlider = forwardRef<SliderRef, ImagesSliderProps>(
               key={index}
               className={`keen-slider__slide ${styles.numberSlide} flex flex-col gap-2 min-h-[350px]`}
             >
-              <CustomCard item={item} index={index} />
+              <CustomCard
+                item={item}
+                index={index}
+                labelEnabled={true}
+                labelEnabledPhone={true}
+              />
             </div>
           ))}
         </div>

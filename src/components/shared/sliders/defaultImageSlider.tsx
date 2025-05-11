@@ -50,7 +50,7 @@ const DefaultImageSlider: React.FC<ImagesSliderProps> = ({ data }) => {
             key={index}
             className={`keen-slider__slide ${styles.numberSlide} flex flex-col gap-2`}
           >
-            <CustomCard item={item} index={index} />
+            <CustomCard item={item} index={index} labelEnabled={true} />
           </div>
         ))}
       </div>

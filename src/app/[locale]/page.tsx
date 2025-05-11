@@ -12,10 +12,8 @@ export default function Home() {
       className={` bg-theme text-theme min-h-screen transition-colors duration-500 ${pagesMargin} py-5 flex flex-col  gap-12`}
     >
       <Search />
-      <div className="flex flex-col gap-50 lg:gap-40 ">
-        <DynamicCollection />
-        <NewThisWeek />
-      </div>
+      <DynamicCollection />
+      <NewThisWeek />
     </div>
   );
 }
