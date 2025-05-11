@@ -13,7 +13,7 @@ const NewThisWeek = () => {
         {/* see all  */}
         <div className="hidden lg:flex justify-between items-center self-end ">
           <div className="w-full">
-            <button className="text-secondary  font-[400] text-[16px]">
+            <button className="text-secondary  font-[400] text-[16px] cursor-pointer ">
               See All
             </button>
           </div>

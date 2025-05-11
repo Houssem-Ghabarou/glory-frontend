@@ -2,12 +2,13 @@ import React from "react";
 import Image from "next/image";
 import { imagesize } from "@/lib/tailwind/classNames";
 import { Item } from "@/types/item";
-
+import AddToCartIcon from "@/assets/icons/add-to-cart.svg";
 interface CustomCardProps {
   item: Item;
   index: number;
   labelEnabled: boolean;
   labelEnabledPhone?: boolean;
+  addToCartEnabled?: boolean;
 }
 
 const CustomCard: React.FC<CustomCardProps> = ({
@@ -15,6 +16,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
   index,
   labelEnabled,
   labelEnabledPhone,
+  addToCartEnabled,
 }) => {
   return (
     <div className="flex flex-col w-full h-full">
@@ -28,6 +30,16 @@ const CustomCard: React.FC<CustomCardProps> = ({
           fill
           className="object-cover"
         />
+        {addToCartEnabled && (
+          <button className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2  button-bg-secondary p-2 shadow-md">
+            <Image
+              src={AddToCartIcon}
+              alt="Add to Cart"
+              width={24}
+              height={24}
+            />
+          </button>
+        )}
       </div>
       {/* Text Content */}
       {labelEnabled && (

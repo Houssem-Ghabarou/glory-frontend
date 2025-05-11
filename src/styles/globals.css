@@ -14,6 +14,7 @@ body {
   --color-secondary: 0 0% 37%;
   --color-muted: 0 0% 95%; /* F5F5F5 */
   --color-accent: 0 0% 92%; /* EBEBEB */
+  --button-bg-secondary: 0 0% 86% / 0.44; /* hsla(0, 0%, 86%, 0.44) */
   --font-display: var(
     --font-beatrice
   ); /* use the variable from next/font/local */
@@ -46,5 +47,8 @@ body {
   }
   .text-secondary {
     color: hsl(var(--color-secondary));
+  }
+  .button-bg-secondary {
+    background-color: hsl(var(--button-bg-secondary));
   }
 }
