@@ -4,16 +4,19 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
+  background-image: url("../../public//noise4.jpeg");
 }
 /* Theme tokens */
 @theme {
   /* Light Theme (default) */
-  --color-bg: 242 100% 95%; /* F2F2F2 */
-  --color-text: 0 0% 0%; /* 000000 */
-  --color-primary: 0 0% 0%; /* 000000 */
-  --color-secondary: 0 0% 37%;
-  --color-muted: 0 0% 95%; /* F5F5F5 */
-  --color-accent: 0 0% 92%; /* EBEBEB */
+  --color-bg: 242 100% 95%; /* #F2F2F2 */
+  --color-text: 0 0% 0%; /* #000000 */
+  --color-primary: 0 0% 0%; /* #000000 */
+  --color-primary-gray: 0 0% 0% / 0.66;
+  --color-secondary-gray: 0 0% 54%; /* #8A8A8A */
+  --color-secondary: 0 0% 37%; /* #5E5E5E */
+  --color-muted: 0 0% 95%; /* #F5F5F5 */
+  --color-accent: 0 0% 92%; /* #EBEBEB */
   --button-bg-secondary: 0 0% 86% / 0.44; /* hsla(0, 0%, 86%, 0.44) */
   --font-display: var(
     --font-beatrice
@@ -41,7 +44,13 @@ body {
   .text-primary {
     color: hsl(var(--color-primary));
   }
+  .text-primary-gray {
+    color: hsl(var(--color-primary-gray));
+  }
 
+  .text-secondary-gray {
+    color: hsl(var(--color-secondary-gray));
+  }
   .text-accent {
     color: hsl(var(--color-accent));
   }

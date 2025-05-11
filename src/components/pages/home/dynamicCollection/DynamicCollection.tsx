@@ -7,7 +7,10 @@ import ImagesSlider, {
   SliderRef,
 } from "@/components/shared/sliders/ImagesSlider";
 import { mockPropsCard } from "@/mock/items";
+import TitleStack from "@/components/shared/titles/TitleStack";
 
+const firstWords = ["NEW", "COLLECTION"];
+const secondWords = ["SUMMER", "2024"];
 const DynamicCollection = () => {
   const sliderRef = useRef<SliderRef>(null);
 
@@ -16,14 +19,8 @@ const DynamicCollection = () => {
       {/* Left Section: Text and Button */}
       <div className="flex flex-col flex-1 min-w-[300px] gap-4 justify-between">
         <div className="flex flex-col gap-2">
-          <div>
-            <h1 className={titleClass}>NEW</h1>
-            <h1 className={titleClass}>COLLECTION</h1>
-          </div>
-          <div>
-            <h1 className={subtitleClass}>Summer</h1>
-            <h1 className={subtitleClass}>2024</h1>
-          </div>
+          <TitleStack words={firstWords} />
+          <TitleStack words={secondWords} className={subtitleClass} />
         </div>
         <div className="hidden lg:flex justify-between items-center">
           <div className="w-full max-w-[50%]">

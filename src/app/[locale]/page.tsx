@@ -4,6 +4,7 @@ import Search from "@/components/pages/home/search/Search";
 import { pagesMargin } from "@/lib/tailwind/classNames";
 import DynamicCollection from "@/components/pages/home/dynamicCollection/DynamicCollection";
 import NewThisWeek from "@/components/pages/home/newthisweek/NewThisWeek";
+import AdvancedCollection from "@/components/pages/home/advancedCollection/AdvancedCollection";
 export default function Home() {
   const t = useTranslations("HomePage");
 
@@ -14,6 +15,7 @@ export default function Home() {
       <Search />
       <DynamicCollection />
       <NewThisWeek />
+      <AdvancedCollection />
     </div>
   );
 }

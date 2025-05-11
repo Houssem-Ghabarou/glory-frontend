@@ -32,14 +32,16 @@ export default async function RootLayout({
     <html className={beatriceFonts.variable} lang={locale}>
       <body>
         <NextIntlClientProvider>
-          <div className="relative min-h-screen">
+          <div className="min-h-screen">
             {/* Background Image */}
-            <Image
+            {/* <Image
               src={backgroundIMage}
               fill
+              priority
+              quality={100}
               alt="hero"
               className="absolute top-0 left-0 w-full h-full object-cover object-center -z-10"
-            />
+            /> */}
 
             {/* Header */}
             <Header />

@@ -22,7 +22,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
     <div className="flex flex-col w-full h-full">
       {/* Image Container */}
       <div
-        className={`relative w-full h-[300px] ${imagesize} border border-gray-300 overflow-hidden`}
+        className={`relative w-full  ${imagesize} border border-[#D7D7D7] overflow-hidden cursor-pointer `}
       >
         <Image
           src={item?.image}
@@ -44,16 +44,21 @@ const CustomCard: React.FC<CustomCardProps> = ({
       {/* Text Content */}
       {labelEnabled && (
         <div
-          className={`flex flex-col gap-2 p-4 ${
+          className={`flex flex-col gap-2 pt-4 ${
             labelEnabledPhone ? "lg:hidden" : ""
           }`}
         >
-          <h1 className="text-sm font-medium text-theme">
+          <div className="text-[15px] font-medium text-primary-gray">
             {item?.category || "Category"}
-          </h1>
-          <h1 className="text-sm font-normal text-theme">
-            {item?.name || "Item"}
-          </h1>
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="text-[15px] font-normal text-theme">
+              {item?.name || "Item"}
+            </div>
+            <div className="text-[15px] font-[500] text-theme">
+              {item?.price || "Price"}$
+            </div>
+          </div>
         </div>
       )}
     </div>
