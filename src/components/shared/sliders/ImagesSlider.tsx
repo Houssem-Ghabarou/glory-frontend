@@ -1,4 +1,3 @@
-"use client";
 import React, { useImperativeHandle, forwardRef } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import styles from "./ImagesSlider.module.css";
@@ -32,19 +31,18 @@ const ImagesSlider = forwardRef<SliderRef, ImagesSliderProps>(
       slides: { perView: 1, spacing: 10 },
     });
 
-    // Expose next and prev methods to parent via ref
     useImperativeHandle(ref, () => ({
       next: () => instanceRef.current?.next(),
       prev: () => instanceRef.current?.prev(),
     }));
 
     return (
-      <div className="w-full h-full ">
+      <div className="w-full h-full">
         <div ref={sliderRef} className={`keen-slider lg:gap-4 ${imagesize}`}>
           {data?.map((item, index) => (
             <div
               key={index}
-              className={`keen-slider__slide ${styles.numberSlide} flex flex-col gap-2`}
+              className={`keen-slider__slide ${styles.numberSlide} flex flex-col gap-2 min-h-[350px]`}
             >
               <CustomCard item={item} index={index} />
             </div>

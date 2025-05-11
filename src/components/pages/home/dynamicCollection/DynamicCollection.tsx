@@ -6,7 +6,6 @@ import Swiper from "@/components/shared/Swiper/Swiper";
 import ImagesSlider, {
   SliderRef,
 } from "@/components/shared/sliders/ImagesSlider";
-import { imagesize } from "@/lib/tailwind/classNames";
 import { mockPropsCard } from "@/mock/items";
 
 const DynamicCollection = () => {

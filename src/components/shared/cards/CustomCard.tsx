@@ -10,10 +10,10 @@ interface CustomCardProps {
 
 const CustomCard: React.FC<CustomCardProps> = ({ item, index }) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-full">
       {/* Image Container */}
       <div
-        className={`relative w-full h-[300px] ${imagesize} `}
+        className={`relative w-full h-[300px] ${imagesize}`}
         style={{
           borderColor: "#D7D7D7",
           borderWidth: "1px",
