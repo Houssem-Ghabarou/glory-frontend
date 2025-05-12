@@ -6,7 +6,7 @@ import TitleStack from "@/components/shared/titles/TitleStack";
 const words = ["NEW", "THIS WEEk"];
 const NewThisWeek = () => {
   return (
-    <div className="flex flex-col gap-8 w-full items-stretch">
+    <section className="flex flex-col gap-8 w-full items-stretch">
       <div className="flex justify-between items-center">
         <div className="relative ">
           <TitleStack words={words} />
@@ -25,8 +25,13 @@ const NewThisWeek = () => {
         </div>
       </div>
 
-      <DefaultImageSlider data={mockPropsCard} />
-    </div>
+      <DefaultImageSlider
+        data={mockPropsCard}
+        addToCartEnabled={true}
+        labelEnabled={true}
+        labelEnabledPhone={true}
+      />
+    </section>
   );
 };
 

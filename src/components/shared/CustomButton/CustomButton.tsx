@@ -9,9 +9,15 @@ const CustomButton = () => {
       <span className="text-[16px] font-[500] font-[400] text-theme">
         GO TO SHOP
       </span>
-      <div className="relative w-8 h-8">
-        <Image src={buttonGo} alt="Go" fill className="object-contain" />
-      </div>
+      <button className="">
+        <Image
+          src={buttonGo}
+          alt="Go"
+          className="object-contain"
+          height={40}
+          width={40}
+        />
+      </button>
     </button>
   );
 };

@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { mockPropsCard } from "@/mock/items";
-import DefaultImageSlider from "@/components/shared/sliders/defaultImageSlider";
 import TitleStack from "@/components/shared/titles/TitleStack";
 import CustomCard from "@/components/shared/cards/CustomCard";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 import Image from "next/image";
+import DefaultImageSlider from "@/components/shared/sliders/defaultImageSlider";
 const words = ["XIV", "COLLECTIONS", "2024"];
 
 const AdvancedCollection = () => {
@@ -17,7 +17,7 @@ const AdvancedCollection = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 w-full items-stretch">
+    <section className="flex flex-col gap-8 w-full items-stretch">
       <div className="flex justify-between items-center">
         <div className="relative ">
           <TitleStack words={words} />
@@ -38,7 +38,7 @@ const AdvancedCollection = () => {
         <div className="text-secondary-gray cursor-pointer">Kids</div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {mockPropsCard.slice(0, visibleCount).map((item, index) => (
           <CustomCard
             item={item}
@@ -51,7 +51,7 @@ const AdvancedCollection = () => {
       </div>
 
       {hasMore && (
-        <div className="flex justify-center mt-4">
+        <div className="hidden lg:flex justify-center mt-4">
           <button
             onClick={handleLoadMore}
             className=" flex flex-col items-center cursor-pointer"
@@ -67,7 +67,15 @@ const AdvancedCollection = () => {
           </button>
         </div>
       )}
-    </div>
+      <div className="lg:hidden w-full">
+        <DefaultImageSlider
+          data={mockPropsCard}
+          addToCartEnabled={true}
+          labelEnabled={true}
+          labelEnabledPhone={true}
+        />
+      </div>
+    </section>
   );
 };
 
