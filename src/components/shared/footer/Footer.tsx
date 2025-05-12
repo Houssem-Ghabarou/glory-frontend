@@ -10,7 +10,7 @@ import NewsLetter from "@/components/shared/newsLetter/NewsLetter";
 
 const Footer = () => {
   return (
-    <footer className="relative z-20 bg-opacity-80 py-8 w-full flex justify-between px-50 ">
+    <footer className="relative z-20 bg-opacity-80 py-8 w-full flex justify-between px-50">
       <div className="flex flex-col  py-10 gap-10">
         <Image
           src={logo}
@@ -69,7 +69,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="flex items-start gap-10">
+      <div className="flex flex-col items-end gap-10">
         <Image
           src={footerlogo}
           alt=""
@@ -77,6 +77,9 @@ const Footer = () => {
           height={198}
           className="h-141 w-40"
         />
+        <p className="text-[#808080] text-center ">
+          © 2023 All rights reserved.
+        </p>
       </div>
       <div className="flex flex-col justify-center px-8 ">
         <NewsLetter />
