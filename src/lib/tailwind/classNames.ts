@@ -17,4 +17,4 @@ export const pagesMargin = "mx-6 sm:mx-10 md:mx-16 lg:mx-25";
 export const titleClass = "text-[48px] font-bold text-theme leading-[40px] ";
 export const subtitleClass = "text-[16px] font-[400] text-theme text-theme";
 export const imagesize = "h-[500px] ";
-export const heroSectionsImagesSize = "h-[500px] ";
+export const heroSectionsImagesSize = "h-[500px]";

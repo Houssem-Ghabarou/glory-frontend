@@ -9,10 +9,18 @@ import Swiper from "../Swiper/Swiper";
 
 interface ImagesSliderProps {
   data: Item[];
+  labelEnabled?: boolean;
+  labelEnabledPhone?: boolean;
+  addToCartEnabled?: boolean;
 }
 const animation = { duration: 5000, easing: (t: number) => t };
 
-const DefaultImageSlider: React.FC<ImagesSliderProps> = ({ data }) => {
+const DefaultImageSlider: React.FC<ImagesSliderProps> = ({
+  data,
+  labelEnabled = true,
+  labelEnabledPhone = true,
+  addToCartEnabled = true,
+}) => {
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     breakpoints: {
       "(min-width: 300px)": {
@@ -53,8 +61,9 @@ const DefaultImageSlider: React.FC<ImagesSliderProps> = ({ data }) => {
             <CustomCard
               item={item}
               index={index}
-              labelEnabled={true}
-              addToCartEnabled={true}
+              labelEnabled={labelEnabled}
+              addToCartEnabled={addToCartEnabled}
+              labelEnabledPhone={labelEnabledPhone}
             />
           </div>
         ))}

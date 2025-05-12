@@ -15,11 +15,14 @@ const DynamicCollection = () => {
   const sliderRef = useRef<SliderRef>(null);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 w-full items-stretch">
+    <section className="flex flex-col lg:flex-row gap-8 w-full items-stretch">
+      <h1 className="sr-only">
+        Glory — Premium Urban Clothing for Bold Expression
+      </h1>
       {/* Left Section: Text and Button */}
       <div className="flex flex-col flex-1 min-w-[300px] gap-4 justify-between">
         <div className="flex flex-col gap-2">
-          <TitleStack words={firstWords} />
+          <TitleStack words={firstWords} main={true} />
           <TitleStack words={secondWords} className={subtitleClass} />
         </div>
         <div className="hidden lg:flex justify-between items-center">
@@ -36,7 +39,7 @@ const DynamicCollection = () => {
       <div className="flex-1 w-full min-w-[300px]">
         <ImagesSlider ref={sliderRef} data={mockPropsCard} />
       </div>
-    </div>
+    </section>
   );
 };
 export default DynamicCollection;
