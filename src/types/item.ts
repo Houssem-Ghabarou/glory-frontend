@@ -4,4 +4,6 @@ export interface Item {
   name: string;
   image: string;
   price: string;
+  onSale: boolean;
+  isNew: boolean;
 }

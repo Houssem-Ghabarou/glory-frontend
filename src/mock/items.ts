@@ -11,6 +11,8 @@ export const mockPropsCard = [
     name: "Cloth 1",
     image: cloth1.src,
     price: "1000",
+    onSale: true,
+    isNew: true,
   },
   {
     id: 2,
@@ -18,6 +20,8 @@ export const mockPropsCard = [
     name: "Cloth 2",
     image: cloth2.src,
     price: "1000",
+    onSale: false,
+    isNew: false,
   },
   {
     id: 3,
@@ -25,6 +29,8 @@ export const mockPropsCard = [
     name: "Cloth 3",
     image: cloth3.src,
     price: "1000",
+    onSale: false,
+    isNew: true,
   },
   {
     id: 4,
@@ -32,6 +38,8 @@ export const mockPropsCard = [
     name: "Cloth 4",
     image: cloth4.src,
     price: "1000",
+    onSale: true,
+    isNew: false,
   },
   {
     id: 5,
@@ -39,6 +47,8 @@ export const mockPropsCard = [
     name: "Cloth 5",
     image: cloth5.src,
     price: "1000",
+    onSale: false,
+    isNew: true,
   },
   {
     id: 6,
@@ -46,5 +56,7 @@ export const mockPropsCard = [
     name: "Cloth 6",
     image: cloth6.src,
     price: "1000",
+    onSale: true,
+    isNew: false,
   },
 ];

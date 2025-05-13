@@ -12,6 +12,8 @@ body {
   --color-bg: 242 100% 95%; /* #F2F2F2 */
   --color-text: 0 0% 0%; /* #000000 */
   --color-primary: 0 0% 0%; /* #000000 */
+  --color-secondary: 234 100% 27%; /* #000000 */
+  --bg-secondary: 234 100% 27%; /* #FFFFFF */
   --color-primary-gray: 0 0% 0% / 0.66;
   --color-secondary-gray: 0 0% 54%; /* #8A8A8A */
   --color-secondary: 0 0% 37%; /* #5E5E5E */
@@ -31,7 +33,13 @@ body {
   }
 
   .dark {
-    /* Empty for now */
+    --color-bg: 0 0% 10%;
+    --color-text: 0 0% 100%;
+    --color-primary: 0 0% 100%;
+    --color-secondary: 0 0% 70%;
+    --bg-secondary: 0 0% 20%;
+    --color-muted: 0 0% 20%;
+    --color-accent: 0 0% 30%;
   }
 }
 
@@ -43,6 +51,12 @@ body {
 
   .text-primary {
     color: hsl(var(--color-primary));
+  }
+  .text-secondary {
+    color: hsl(var(--color-secondary));
+  }
+  .bg-secondary {
+    background-color: hsl(var(--bg-secondary));
   }
   .text-primary-gray {
     color: hsl(var(--color-primary-gray));

@@ -1,4 +1,3 @@
-// import { useTheme } from "@/hooks/useTheme";
 import { useTranslations } from "next-intl";
 import Search from "@/components/pages/home/search/Search";
 import { pagesMargin } from "@/lib/tailwind/classNames";
