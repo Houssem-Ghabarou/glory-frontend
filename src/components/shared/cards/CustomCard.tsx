@@ -3,7 +3,6 @@ import Image from "next/image";
 import { imagesize } from "@/lib/tailwind/classNames";
 import { Item } from "@/types/item";
 import AddToCartIcon from "@/assets/icons/add-to-cart.svg";
-
 interface CustomCardProps {
   item: Item;
   index: number;

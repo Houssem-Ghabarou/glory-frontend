@@ -5,11 +5,11 @@ import Image from "next/image";
 
 const CustomButton = () => {
   return (
-    <button className="flex items-center justify-between gap-2 bg-[#D9D9D9] text-white px-4 py-1 rounded-[2px] w-full cursor-pointer">
+    <div className="flex items-center justify-between gap-2 bg-[#D9D9D9] text-white px-4 py-1 rounded-[2px] w-full cursor-pointer">
       <span className="text-[16px] font-[500] font-[400] text-theme">
         GO TO SHOP
       </span>
-      <button className="">
+      <button>
         <Image
           src={buttonGo}
           alt="Go"
@@ -18,7 +18,7 @@ const CustomButton = () => {
           width={40}
         />
       </button>
-    </button>
+    </div>
   );
 };
 

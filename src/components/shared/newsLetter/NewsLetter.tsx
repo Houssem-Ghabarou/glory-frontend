@@ -4,9 +4,9 @@ const NewsLetter = () => {
   return (
     <div className="flex flex-col gap-4 items-center bg-black  px-30 py-10">
       <div className="flex flex-col items-center gap-2">
-        <h1 className="text-white text-2xl text-center whitespace-nowrap">
+        <div className="text-white text-2xl text-center whitespace-nowrap">
           STAY UPDATED
-        </h1>
+        </div>
         <p className="text-white text-xs text-center whitespace-nowrap">
           JOIN OUR NEWSLETTER
         </p>

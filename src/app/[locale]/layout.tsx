@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: "GLORY clothing brand store",
 };
 import { routing } from "../../../i18n/routing";
+import CartModal from "@/components/shared/cart/Cart-modal";
 
 export default async function RootLayout({
   children,
@@ -33,6 +34,7 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider>
           <div className="min-h-screen">
+            <CartModal />
             {/* Background Image */}
             {/* <Image
               src={backgroundIMage}
