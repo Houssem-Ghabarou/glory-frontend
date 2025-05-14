@@ -8,6 +8,8 @@ import cloth1 from "@/assets/images/cloth1.png";
 import cloth2 from "@/assets/images/cloth2.png";
 import cloth3 from "@/assets/images/cloth3.jpg";
 import cloth4 from "@/assets/images/cloth4.jpg";
+import ImageGallery from "@/components/shared/sliders/GalleryImageSlider";
+import { useIsMobile } from "@/hooks/useMobile";
 
 const productColors = [
   { name: "Black", value: "#000000", className: "bg-black" },
@@ -34,6 +36,7 @@ const productImages = [
 ];
 
 export default function ProductDetail() {
+  const isMobile = useIsMobile();
   const [selectedColor, setSelectedColor] = useState(productColors[0]);
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedImage, setSelectedImage] = useState(0);
@@ -75,7 +78,12 @@ export default function ProductDetail() {
     <div className="px-4 py-20 lg:px-12 xl:px-20 max-w-7xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
         {/* Product Gallery Section */}
-        <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6 w-full">
+
+        <div className=" flex flex-col  lg:hidden gap-4">
+          <ImageGallery images={productImages} />
+        </div>
+
+        <div className="hidden lg:flex flex-col-reverse lg:flex-row gap-4 lg:gap-6 w-full">
           {/* Main Product Image */}
           <div className="relative w-full lg:w-3/4 aspect-square bg-gray-50">
             <Image
