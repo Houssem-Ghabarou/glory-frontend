@@ -62,7 +62,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
   );
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <div ref={sliderRef} className="keen-slider">
         {images.map((src, idx) => (
           <div
@@ -94,6 +94,6 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
