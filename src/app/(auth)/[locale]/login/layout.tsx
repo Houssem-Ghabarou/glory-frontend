@@ -12,7 +12,7 @@ export default function LoginLayout({
   return (
     <html lang="fr">
       <body>
-        <main className="min-h-screen flex items-center justify-center bg-white text-black">
+        <main className="min-h-screen flex items-center justify-center text-black">
           {children}
         </main>
       </body>

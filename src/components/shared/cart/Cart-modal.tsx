@@ -3,84 +3,25 @@
 import { useState } from "react";
 import { X, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
-import cloth1 from "@/assets/images/cloth1.png";
-import cloth2 from "@/assets/images/cloth2.png";
-import cloth3 from "@/assets/images/cloth3.jpg";
-type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-};
+import useCart from "./useCart";
+import { Item } from "@/types/item";
 
 export default function CartModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: "1",
-      name: "Wireless Headphones",
-      price: 99.99,
-      quantity: 1,
-      image: cloth1.src,
-    },
-    {
-      id: "2",
-      name: "Smart Watch",
-      price: 199.99,
-      quantity: 1,
-      image: cloth2.src,
-    },
-    {
-      id: "3",
-      name: "Bluetooth Speaker",
-      price: 79.99,
-      quantity: 2,
-      image: cloth3.src,
-    },
-  ]);
-
-  const toggleCart = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const removeItem = (id: string) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const { cartItems, removeItem, totalPrice, toggleCart, cartOpen } = useCart();
 
   return (
     <>
-      {/* Cart Button */}
-      <button
-        onClick={toggleCart}
-        className="fixed top-4 right-4 z-80 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-        aria-label="Open cart"
-      >
-        <ShoppingCart className="h-6 w-6 text-gray-700" />
-        {cartItems.length > 0 && (
-          <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-            {cartItems.length}
-          </span>
-        )}
-      </button>
-
       {/* Overlay */}
-      {isOpen && (
+      {cartOpen && (
         <div
           className="fixed inset-0 bg-transparent z-80 transition-opacity duration-300 cursor-pointer"
           onClick={toggleCart}
         />
       )}
-
       {/* Cart Modal */}
       <div
         className={`fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-lg z-100 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
+          cartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
@@ -105,7 +46,7 @@ export default function CartModal() {
               </div>
             ) : (
               <ul className="space-y-4">
-                {cartItems.map((item) => (
+                {cartItems.map((item: Item) => (
                   <li
                     key={item.id}
                     className="flex items-center gap-4 p-2 border rounded-lg"
@@ -125,7 +66,9 @@ export default function CartModal() {
                       <p className="text-sm text-gray-500">
                         Qty: {item.quantity}
                       </p>
-                      <p className="font-medium">${item.price.toFixed(2)}</p>
+                      <p className="font-medium">
+                        ${Number(item.price).toFixed(2)}
+                      </p>
                     </div>
                     <button
                       onClick={() => removeItem(item.id)}

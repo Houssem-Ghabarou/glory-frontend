@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import "@/styles/globals.css";
 import { beatriceFonts } from "@/assets/fonts";
 import Footer from "@/components/shared/footer/Footer";
 import Header from "@/components/shared/header/Header";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
-import backgroundIMage from "@/assets/images/noise4.jpeg";
 import "keen-slider/keen-slider.min.css";
+import { CartProvider } from "@/components/shared/cart/CartContext";
 
 export const metadata: Metadata = {
   title: "GLORY",
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
 };
 import { routing } from "../../../i18n/routing";
 import CartModal from "@/components/shared/cart/Cart-modal";
-
+import NewsletterModal from "@/components/shared/newsLetter/NewsLetterModal";
 export default async function RootLayout({
   children,
   params,
@@ -32,11 +31,12 @@ export default async function RootLayout({
   return (
     <html className={beatriceFonts.variable} lang={locale}>
       <body>
-        <NextIntlClientProvider>
-          <div className="min-h-screen">
-            <CartModal />
-            {/* Background Image */}
-            {/* <Image
+        <CartProvider>
+          <NextIntlClientProvider>
+            <div className="min-h-screen">
+              <CartModal />
+              {/* Background Image */}
+              {/* <Image
               src={backgroundIMage}
               fill
               priority
@@ -45,17 +45,21 @@ export default async function RootLayout({
               className="absolute top-0 left-0 w-full h-full object-cover object-center -z-10"
             /> */}
 
-            {/* Header */}
-            <Header />
+              {/* Header */}
+              <Header />
 
-            {/* Overlay */}
-            {/* App Content */}
-            <div className="relative z-10">{children}</div>
+              {/* Overlay */}
+              {/* App Content */}
+              <div className="relative z-10">
+                {children}
+                <NewsletterModal />
+              </div>
 
-            {/* Footer */}
-            <Footer />
-          </div>
-        </NextIntlClientProvider>
+              {/* Footer */}
+              <Footer />
+            </div>
+          </NextIntlClientProvider>
+        </CartProvider>
       </body>
     </html>
   );

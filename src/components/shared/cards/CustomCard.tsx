@@ -3,6 +3,7 @@ import Image from "next/image";
 import { imagesize } from "@/lib/tailwind/classNames";
 import type { Item } from "@/types/item";
 import AddToCartIcon from "@/assets/icons/add-to-cart.svg";
+import useCart from "../cart/useCart";
 
 interface CustomCardProps {
   item: Item;
@@ -19,6 +20,8 @@ const CustomCard: React.FC<CustomCardProps> = ({
   labelEnabledPhone,
   addToCartEnabled,
 }) => {
+  const { addItem, removeItem, cartItems, totalPrice } = useCart();
+
   return (
     <div className="flex flex-col w-full h-full group">
       {/* Image Container */}
@@ -51,7 +54,12 @@ const CustomCard: React.FC<CustomCardProps> = ({
 
         {/* Add to cart button with hover effect */}
         {addToCartEnabled && (
-          <button className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2 button-bg-secondary p-2 shadow-md transition-all duration-300 group-hover:bottom-4 hover:scale-110">
+          <button
+            className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2 button-bg-secondary p-2 shadow-md transition-all duration-300 group-hover:bottom-4 hover:scale-110"
+            onClick={() => {
+              addItem(item);
+            }}
+          >
             <Image
               src={AddToCartIcon || "/placeholder.svg"}
               alt="Add to Cart"

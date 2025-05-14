@@ -2,7 +2,7 @@ import { EnvelopeIcon } from "@heroicons/react/24/outline";
 
 const NewsLetter = () => {
   return (
-    <div className="flex flex-col gap-4 items-center bg-black  px-30 py-10">
+    <div className="flex flex-col gap-4 items-center bg-black  w-full py-15">
       <div className="flex flex-col items-center gap-2">
         <div className="text-white text-2xl text-center whitespace-nowrap">
           STAY UPDATED
