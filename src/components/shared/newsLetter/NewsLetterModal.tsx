@@ -2,16 +2,17 @@
 
 import type React from "react";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import Image from "next/image";
-import Cloth1 from "@/assets/images/cloth1.png";
+import CLoth1 from "@/assets/images/cloth1.png";
 export default function NewsletterModal() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Check if user has already closed the modal
@@ -49,18 +50,39 @@ export default function NewsletterModal() {
     }, 2000);
   };
 
+  const handleClickOutside = (e: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      handleClose();
+    }
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      // Small delay to prevent immediate closing when the modal opens
+      const timer = setTimeout(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+      }, 100);
+
+      return () => {
+        clearTimeout(timer);
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [isVisible]);
+
   if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div
-        className={`relative w-full max-w-[800px]  mx-4 overflow-hidden bg-white shadow-2xl ${
+        className={`relative w-full max-w-[800px] mx-4 overflow-hidden bg-white shadow-2xl ${
           isExiting ? "animate-modal-exit" : "animate-modal-enter"
         }`}
+        ref={modalRef}
       >
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 p-1 rounded-full bg-white/80 hover:bg-white transition-colors"
+          className="absolute top-4 right-4 p-1 rounded-full bg-white hover:bg-gray-100 transition-colors z-10 shadow-md"
           aria-label="Close"
         >
           <X className="w-5 h-5 text-gray-800" />
@@ -70,7 +92,7 @@ export default function NewsletterModal() {
           {/* Image Section */}
           <div className="relative w-full md:w-1/2 h-48 md:h-auto overflow-hidden">
             <Image
-              src={Cloth1.src}
+              src={CLoth1.src}
               alt="Fashion"
               fill
               className="object-cover"
