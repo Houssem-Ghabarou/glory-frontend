@@ -89,7 +89,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
 
   return (
     <ReactImageGallery
-      showBullets={false}
+      showBullets={true}
       showFullscreenButton={false}
       showPlayButton={false}
       originalWidth={500}
