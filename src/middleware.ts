@@ -25,7 +25,7 @@ export function middleware(req: NextRequest) {
       }
 
       try {
-        const decoded = jwt.verify(token, envconf.JWT_SECRET);
+        const decoded = jwt.verify(token, envconf.JWT_SECRET || "");
 
         if (typeof decoded === "object" && "role" in decoded) {
           const { role } = decoded as JwtPayload;
@@ -42,7 +42,8 @@ export function middleware(req: NextRequest) {
         } else {
           return NextResponse.redirect(new URL("/login", req.url));
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        console.error("JWT verification failed:", err);
         return NextResponse.redirect(new URL("/login", req.url));
       }
     }
