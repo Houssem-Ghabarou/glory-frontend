@@ -4,6 +4,8 @@ import { imagesize } from "@/lib/tailwind/classNames";
 import type { Item } from "@/types/item";
 import AddToCartIcon from "@/assets/icons/add-to-cart.svg";
 import useCart from "../cart/useCart";
+// next router
+import { useRouter } from "next/navigation";
 
 interface CustomCardProps {
   item: Item;
@@ -22,6 +24,10 @@ const CustomCard: React.FC<CustomCardProps> = ({
 }) => {
   const { addItem, removeItem, cartItems, totalPrice } = useCart();
 
+  const router = useRouter();
+  const handleCardClick = () => {
+    router.push(`/product-details`);
+  };
   return (
     <div className="flex flex-col w-full h-full group">
       {/* Image Container */}
@@ -30,6 +36,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
       >
         {/* Image with zoom effect */}
         <Image
+          onClick={handleCardClick}
           src={item?.image || "/placeholder.svg"}
           alt={`Item ${index + 1}`}
           width={500}
