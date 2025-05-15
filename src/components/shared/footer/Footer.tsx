@@ -10,7 +10,7 @@ import NewsLetter from "@/components/shared/newsLetter/NewsLetter";
 
 const Footer = () => {
   return (
-    <footer className="relative z-20 bg-opacity-80 py-8 w-full flex flex-col ">
+    <footer className="relative  bg-opacity-80 py-8 w-full flex flex-col ">
       <div className="flex flex-col md:flex-row w-full px-30 gap-15 ">
         {/* First column */}
         <div className="flex flex-col py-10 gap-6 items-center  flex-1  ">

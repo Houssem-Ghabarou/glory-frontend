@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 import { routing } from "../../../i18n/routing";
 import CartModal from "@/components/shared/cart/Cart-modal";
 import NewsletterModal from "@/components/shared/newsLetter/NewsLetterModal";
+import VideoModal from "@/components/shared/videoModal/VideoModal";
 export default async function RootLayout({
   children,
   params,
@@ -35,27 +36,17 @@ export default async function RootLayout({
           <NextIntlClientProvider>
             <div className="min-h-screen">
               <CartModal />
-              {/* Background Image */}
-              {/* <Image
-              src={backgroundIMage}
-              fill
-              priority
-              quality={100}
-              alt="hero"
-              className="absolute top-0 left-0 w-full h-full object-cover object-center -z-10"
-            /> */}
 
-              {/* Header */}
               <Header />
 
               {/* Overlay */}
               {/* App Content */}
-              <div className="relative z-10">
+              <div className="relative ">
                 {children}
+                {/* <VideoModal /> */}
                 <NewsletterModal />
               </div>
 
-              {/* Footer */}
               <Footer />
             </div>
           </NextIntlClientProvider>

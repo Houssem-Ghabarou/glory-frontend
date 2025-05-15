@@ -123,14 +123,14 @@ const Header = () => {
 
         {/* Action Icons */}
         <div className="flex space-x-4 lg:space-x-8 items-center">
-          <button aria-label="Favorite" className="cursor-pointer">
+          {/* <button aria-label="Favorite" className="cursor-pointer">
             <Image
               src={favoriteIcon || "/placeholder.svg"}
               alt="Favorite"
               width={24}
               height={24}
             />
-          </button>
+          </button> */}
           <button
             onClick={toggleCart}
             aria-label="Cart"
@@ -157,7 +157,7 @@ const Header = () => {
               </div>
             )}
           </button>
-          <button
+          {/* <button
             aria-label="Profile"
             className="hidden lg:inline cursor-pointer"
           >
@@ -167,18 +167,18 @@ const Header = () => {
               width={24}
               height={24}
             />
-          </button>
+          </button> */}
         </div>
       </div>
 
       {/* Mobile Menu Modal */}
       <div
-        className={`fixed inset-0 z-30 bg-black/50 transition-opacity duration-300 ease-in-out ${
+        className={`fixed inset-0 h-screen z-30 bg-black/50 transition-opacity duration-300 ease-in-out ${
           isMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <div
-          className={`absolute top-0 left-0 w-3/4 h-full bg-white shadow-lg p-6 transition-transform duration-300 ease-in-out mobile-menu ${
+          className={`absolute top-0 left-0 w-3/4 h-screen bg-white shadow-lg p-6 transition-transform duration-300 ease-in-out mobile-menu ${
             isMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >

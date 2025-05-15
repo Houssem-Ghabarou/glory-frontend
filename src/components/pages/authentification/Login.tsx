@@ -52,7 +52,7 @@ const Login = () => {
     <div className="min-h-screen min-w-screen flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-5xl flex flex-col sm:flex-row overflow-hidden">
         {/* Left Side - Form */}
-        <div className="w-full sm:w-1/2 p-10 flex flex-col justify-center">
+        <div className="w-full sm:w-1/2 p-4 lg:p-10 flex flex-col justify-center">
           <div className="flex justify-center mb-6">
             <Image src={Logo} alt="Logo" width={120} height={40} />
           </div>
@@ -127,7 +127,7 @@ const Login = () => {
         </div>
 
         {/* Right Side - Social */}
-        <div className="w-full sm:w-1/2 bg-gray-50 p-10 flex flex-col justify-center gap-5">
+        <div className="w-full sm:w-1/2 bg-gray-50 p-4 lg:p-10 flex flex-col justify-center gap-5">
           <p className="text-gray-600 text-center text-sm sm:text-base mt-2 py-8">
             Or login with
           </p>

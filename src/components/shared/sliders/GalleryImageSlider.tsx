@@ -6,6 +6,7 @@ import {
 } from "keen-slider/react";
 import Image from "next/image";
 import Styles from "./GalleryImageSlider.module.css";
+//@ts-ignore
 import ReactImageGallery from "react-image-gallery";
 import cloth1 from "@/assets/images/cloth1.png";
 import "react-image-gallery/styles/css/image-gallery.css";
