@@ -6,6 +6,9 @@ import {
 } from "keen-slider/react";
 import Image from "next/image";
 import Styles from "./GalleryImageSlider.module.css";
+import ReactImageGallery from "react-image-gallery";
+import cloth1 from "@/assets/images/cloth1.png";
+import "react-image-gallery/styles/css/image-gallery.css";
 
 interface ImageGalleryProps {
   images: string[];
@@ -47,53 +50,52 @@ function ThumbnailPlugin(
 }
 
 export default function ImageGallery({ images }: ImageGalleryProps) {
-  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
-    initial: 0,
-  });
-  const [thumbnailRef] = useKeenSlider<HTMLDivElement>(
-    {
-      initial: 0,
-      slides: {
-        perView: Math.min(4, images.length),
-        spacing: 10,
+  const productDetailItem = {
+    images: [
+      {
+        original: cloth1.src,
+        thumbnail: cloth1.src,
       },
-    },
-    [ThumbnailPlugin(instanceRef)]
-  );
+      {
+        original: cloth1.src,
+        thumbnail: cloth1.src,
+      },
+      {
+        original: cloth1.src,
+        thumbnail: cloth1.src,
+      },
+      {
+        original: cloth1.src,
+        thumbnail: cloth1.src,
+      },
+      {
+        original: cloth1.src,
+        thumbnail: cloth1.src,
+      },
+    ],
+    title: "BIG ITALIAN SOFA",
+    reviews: "150",
+    availability: true,
+    brand: "apex",
+    category: "Sofa",
+    sku: "BE45VGTRK",
+    price: 450,
+    previousPrice: 599,
+    description:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem exercitationem voluptate sint eius ea assumenda provident eos repellendus qui neque! Velit ratione illo maiores voluptates commodi eaque illum, laudantium non!",
+    size: ["XS", "S", "M", "L", "XL"],
+    color: ["gray", "violet", "red"],
+  };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div ref={sliderRef} className="keen-slider">
-        {images.map((src, idx) => (
-          <div
-            key={idx}
-            className={`keen-slider__slide max-h-[400px] h-[400px] w-[400px]`}
-          >
-            <Image
-              src={src}
-              alt={`Slide ${idx + 1}`}
-              fill
-              priority={idx === 0}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div ref={thumbnailRef} className={`keen-slider ${Styles.thumbnail}`}>
-        {images.map((src, idx) => (
-          <div
-            key={idx}
-            className={`keen-slider__slide ${Styles.thumbnailSlide} h-[100px] w-[100px]`}
-          >
-            <Image
-              src={src}
-              alt={`Thumbnail ${idx + 1}`}
-              fill
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
+    <ReactImageGallery
+      showBullets={false}
+      showFullscreenButton={false}
+      showPlayButton={false}
+      originalWidth={500}
+      originalHeight={500}
+      items={productDetailItem.images}
+      // thumbnailPosition="left"
+    />
   );
 }
