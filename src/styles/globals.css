@@ -114,3 +114,7 @@ body {
 .animate-bounce-badge {
   animation: bounce-badge 0.5s cubic-bezier(0.28, 0.84, 0.42, 1) infinite;
 }
+
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-height: 600px !important;
+}
