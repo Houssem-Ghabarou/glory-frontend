@@ -33,6 +33,7 @@ function getNumberEnv(name: string, fallback?: number): number {
 export const envconf = {
   NODE_ENV: getEnv("NODE_ENV", "development"),
   API_URL: getEnv("NEXT_PUBLIC_API_URL"),
+  JWT_SECRET: getEnv("JWT_SECRET"),
   DATABASE_URL: getEnv("DATABASE_URL"),
   ENABLE_FEATURE_X: getBooleanEnv("ENABLE_FEATURE_X", false),
   PORT: getNumberEnv("PORT", 3000),

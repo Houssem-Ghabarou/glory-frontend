@@ -2,16 +2,50 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import Logo from "@/assets/logo/blacklogo.svg";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import facebookicon from "@/assets/icons/facebook-icon.svg";
 import googleicon from "@/assets/icons/google-icon.svg";
+import { useAuth } from "../../../context/AuthContext";
+import { login as loginUser } from "@/lib/auth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string>("");
+
+  const { setUser } = useAuth();
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const result = await loginUser(email, password);
+
+      if (result?.success) {
+        setUser(result?.user);
+
+        toast.success("Connexion réussie !");
+
+        if (result.user?.role === "admin") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/fr/");
+        }
+      } else {
+        toast.error(result?.error ?? "Email ou mot de passe incorrect.");
+      }
+    } catch (error) {
+      toast.error("Une erreur est survenue. Veuillez réessayer.");
+    }
   };
 
   return (
@@ -30,13 +64,20 @@ const Login = () => {
             Please enter your credentials to log in.
           </p>
 
-          <form className="space-y-5">
+          {error && (
+            <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+          )}
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="text-sm text-gray-600">Email</label>
               <input
                 type="email"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 w-full h-12 px-4 text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-black/60"
+                required
               />
             </div>
 
@@ -55,7 +96,10 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="mt-1 w-full h-12 px-4 text-base border rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-black/60"
+                  required
                 />
                 <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
                   {showPassword ? (
@@ -93,13 +137,16 @@ const Login = () => {
             <span className="text-gray-700">Continue with Google</span>
           </button>
 
-          <button className="h-12 w-full px-4 text-base border border-gray-300 rounded-md flex items-center justify-center  gap-3 hover:bg-gray-100 transition">
+          <button className="h-12 w-full px-4 text-base border border-gray-300 rounded-md flex items-center justify-center gap-3 hover:bg-gray-100 transition">
             <Image src={facebookicon} alt="Facebook" width={20} height={20} />
-            <span className="text-gray-700 ">Continue with Facebook</span>
+            <span className="text-gray-700">Continue with Facebook</span>
           </button>
 
-          <button className="text-sm text-black font-medium hover:underline mt-4">
-            Don't have an account? Register
+          <button
+            onClick={() => router.push("/register")}
+            className="text-sm text-black font-medium hover:underline mt-4"
+          >
+            Don&apos;t have an account? Register
           </button>
         </div>
       </div>

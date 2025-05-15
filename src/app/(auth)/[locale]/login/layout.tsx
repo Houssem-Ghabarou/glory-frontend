@@ -1,3 +1,6 @@
+import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "react-hot-toast";
+
 import "@/styles/globals.css";
 
 export const metadata = {
@@ -13,7 +16,10 @@ export default function LoginLayout({
     <html lang="fr">
       <body>
         <main className="min-h-screen flex items-center justify-center text-black">
-          {children}
+          <AuthProvider>
+            {children}
+            <Toaster position="top-center" reverseOrder={false} />
+          </AuthProvider>
         </main>
       </body>
     </html>
