@@ -8,6 +8,8 @@ import { getProducts, getOrders } from "@/lib/prod";
 
 import { Product } from "@/types/models/product";
 import { Order } from "@/types/models/order";
+import PublishedProducts from "../../shared/PublishedProducts/PublishedProducts";
+import OrdersTable from "../../shared/OrdersTable/OrdersTable";
 
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState<"publie" | "commande">(
@@ -134,96 +136,9 @@ const Admin = () => {
 
           {/* Tab content */}
           {selectedTab === "publie" ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <div
-                  key={product._id}
-                  className="border p-4 flex flex-col items-center bg-white shadow-sm hover:shadow transition-shadow"
-                >
-                  <div className="w-full h-40 bg-gray-100 mb-4 flex items-center justify-center">
-                    {product?.images?.[0] && (
-                      <Image
-                        src={product.images[0]}
-                        alt="Image principale du produit"
-                        className="rounded-lg object-cover "
-                        width={150}
-                        height={150}
-                      />
-                    )}
-                  </div>
-                  <p className="text-center font-semibold mb-1">
-                    {product.name}
-                  </p>
-                  <div className="text-red-600 font-bold mb-2">
-                    {product.price} dt
-                  </div>
-                  <button className="px-4 py-1 bg-black text-white text-sm rounded">
-                    Publier
-                  </button>
-                </div>
-              ))}
-            </div>
+            <PublishedProducts products={products} />
           ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="p-3 text-left">Article</th>
-                    <th className="p-3 text-left">Client</th>
-                    <th className="p-3 text-left">Téléphone</th>
-                    <th className="p-3 text-left">Quantité</th>
-                    <th className="p-3 text-left">Total</th>
-                    <th className="p-3 text-left">Localisation</th>
-                    <th className="p-3 text-left">Livré</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map((order) => (
-                    <tr key={order._id} className="border-b">
-                      <td className="p-3 space-y-2">
-                        {order.items.map((item, index) => (
-                          <div key={index} className="flex items-center gap-2">
-                            {item.product &&
-                              typeof item.product === "object" &&
-                              "images" in item.product &&
-                              item.product.images?.[0] && (
-                                <Image
-                                  src={item.product.images[0]}
-                                  alt="Produit"
-                                  width={40}
-                                  height={40}
-                                  className="rounded object-cover"
-                                />
-                              )}
-                          </div>
-                        ))}
-                      </td>
-
-                      <td className="p-3">{order.customerInfo.name}</td>
-                      <td className="p-3">{order.customerInfo.phone}</td>
-                      <td className="p-3">
-                        {order.items.reduce(
-                          (total, item) => total + item.quantity,
-                          0
-                        )}
-                      </td>
-                      <td className="p-3">{order.total} dt</td>
-                      <td className="p-3">
-                        {order?.customerInfo?.gouvernourat},{" "}
-                        {order?.customerInfo?.ville}
-                      </td>
-                      <td className="p-3">
-                        <input
-                          type="checkbox"
-                          checked={order.status === "Completed"}
-                          readOnly
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <OrdersTable orders={orders} />
           )}
         </main>
       </div>
