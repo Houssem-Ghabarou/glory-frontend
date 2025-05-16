@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
 };
+
 const withNextIntl = createNextIntlPlugin();
+
 export default withNextIntl(nextConfig);
