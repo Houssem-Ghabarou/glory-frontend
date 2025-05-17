@@ -40,15 +40,15 @@ const PublishedProducts: React.FC<PublishedProductsProps> = ({ products }) => {
                 />
               )}
             </div>
-
             {/* Détails produit */}
             <div className="flex flex-col px-4 items-start gap-1">
               {/* Nom */}
               <p className="text-sm font-semibold">{product.name}</p>
+              <p className="text-xs text-gray-500">{product.reference}</p>
 
               {/* Prix */}
               {hasSale ? (
-                <div className="flex flex-col items-start ">
+                <div className="flex flex-col items-start">
                   <span className="line-through text-gray-500 text-sm">
                     {product.price.toFixed(2)}$
                   </span>
@@ -62,10 +62,9 @@ const PublishedProducts: React.FC<PublishedProductsProps> = ({ products }) => {
                 </span>
               )}
             </div>
-
             {/* Bouton aligné à droite */}
-            <button className="mt-auto self-end px-4 py-1 bg-black text-white text-sm rounded">
-              Publier
+            <button className="mt-auto self-end px-4 py-1 bg-black text-white text-sm rounded cursor-pointer">
+              Editer
             </button>
           </div>
         );

@@ -5,16 +5,18 @@ import React, { useEffect, useRef, useState } from "react";
 import admin from "@/assets/images/admin.png";
 import blacklogo from "@/assets/logo/blacklogo.svg";
 import { getProducts, getOrders } from "@/lib/prod";
-
 import { Product } from "@/types/models/product";
 import { Order } from "@/types/models/order";
 import PublishedProducts from "../../shared/PublishedProducts/PublishedProducts";
 import OrdersTable from "../../shared/OrdersTable/OrdersTable";
+import AddProduit from "../../shared/addproduit/AddProduit";
+import { X } from "lucide-react";
 
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState<"publie" | "commande">(
     "publie"
   );
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const publieRef = useRef<HTMLButtonElement | null>(null);
   const commandeRef = useRef<HTMLButtonElement | null>(null);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
@@ -50,13 +52,8 @@ const Admin = () => {
     }
   }, [selectedTab]);
 
-  useEffect(() => {
-    if (selectedTab === "publie") {
-      getProducts();
-    } else {
-      getOrders();
-    }
-  }, [selectedTab]);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="w-full">
@@ -70,7 +67,10 @@ const Admin = () => {
           <h1 className="text-5xl font-bold mb-4 drop-shadow-md">
             Ajoutez des articles
           </h1>
-          <button className="px-6 py-3 bg-white text-black font-semibold rounded hover:bg-gray-100">
+          <button
+            onClick={openModal}
+            className="px-6 py-3 bg-white text-black font-semibold rounded hover:bg-gray-100"
+          >
             Ajoutez
           </button>
         </div>
@@ -80,7 +80,10 @@ const Admin = () => {
         {/* Sidebar */}
         <aside className="bg-[#F3F3F3] w-48 min-h-[calc(100vh-400px-40px)] relative">
           <ul className="flex flex-col text-theme text-bold py-10 px-4 gap-4">
-            <li className="font-medium cursor-pointer hover:font-bold transition-all">
+            <li
+              onClick={openModal}
+              className="font-medium cursor-pointer hover:font-bold transition-all"
+            >
               Ajoutez des articles
             </li>
             <li className="font-medium cursor-pointer hover:font-bold transition-all">
@@ -134,7 +137,6 @@ const Admin = () => {
             </div>
           </div>
 
-          {/* Tab content */}
           {selectedTab === "publie" ? (
             <PublishedProducts products={products} />
           ) : (
@@ -142,6 +144,23 @@ const Admin = () => {
           )}
         </main>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 p-2 text-gray-600 hover:text-gray-800"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <div className="p-6">
+              <AddProduit />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

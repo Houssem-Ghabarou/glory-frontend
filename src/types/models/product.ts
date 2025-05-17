@@ -11,6 +11,7 @@ export interface Product {
   name: string;
   description?: string;
   collection: string;
+  reference: string;
   price: number;
   sale: number;
   images: string[];
