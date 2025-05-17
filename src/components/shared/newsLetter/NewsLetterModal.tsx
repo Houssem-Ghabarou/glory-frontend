@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/InputNewsLETTER";
 import Image from "next/image";
 import CLoth1 from "@/assets/images/cloth1.png";
 export default function NewsletterModal() {
