@@ -4,6 +4,7 @@ import styles from "./ImagesSlider.module.css";
 import { imagesize } from "@/lib/tailwind/classNames";
 import { Item } from "@/types/item";
 import CustomCard from "../cards/CustomCard";
+import { mockPropsCard } from "@/mock/items";
 
 interface ImagesSliderProps {
   data: Item[];

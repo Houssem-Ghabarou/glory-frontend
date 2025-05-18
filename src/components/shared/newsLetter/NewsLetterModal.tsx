@@ -41,7 +41,6 @@ export default function NewsletterModal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you would typically send the email to your API
-    console.log("Subscribing email:", email);
     setIsSubmitted(true);
 
     // Close modal after showing success message

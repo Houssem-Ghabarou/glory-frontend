@@ -1,3 +1,4 @@
+"use client";
 import SearchInput from "@/components/shared/SearchInput";
 import React from "react";
 import CategoryNavigation from "./CategoryNavigation";

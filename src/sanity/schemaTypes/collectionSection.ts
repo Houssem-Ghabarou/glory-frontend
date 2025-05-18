@@ -24,6 +24,38 @@ export default defineType({
       description: "An optional third title for the collection section.",
     },
     {
+      name: "fourthTitle",
+      title: "Fourth Title",
+      type: "string",
+      description: "An optional fourth title for the collection section.",
+    },
+    {
+      name: "isHeroSection",
+      title: "Is Hero Section",
+      type: "boolean",
+      description: "Indicates if this is a hero section.",
+      initialValue: false,
+      hidden: ({ parent }) =>
+        parent?.isCollectionSection === true || parent?.hasFilter === true,
+    },
+    {
+      name: "hasFilter",
+      title: "Has Filter",
+      type: "boolean",
+      description: "Indicates if this section has a filter. men women kids",
+      initialValue: false,
+      hidden: ({ parent }) => parent?.isHeroSection === true,
+    },
+    {
+      name: "isCollectionSection",
+      title: "Is Collection Section",
+      type: "boolean",
+      description: "Indicates if this is a collection section.",
+      initialValue: false,
+      hidden: ({ parent }) =>
+        parent?.isHeroSection === true || parent?.hasFilter === true,
+    },
+    {
       name: "propertyRefs",
       title: "Clothing Properties",
       type: "array",

@@ -16,6 +16,9 @@ import { routing } from "../../../i18n/routing";
 import CartModal from "@/components/shared/cart/Cart-modal";
 import NewsletterModal from "@/components/shared/newsLetter/NewsLetterModal";
 import VideoModal from "@/components/shared/videoModal/VideoModal";
+import { ToastProvider } from "@/context/ToastContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default async function RootLayout({
   children,
   params,
@@ -24,7 +27,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   // Get the current locale from the URL
-  // Ensure that the incoming `locale` is valid
+  // Ensure that the incoming locale is valid
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -32,25 +35,27 @@ export default async function RootLayout({
   return (
     <html className={beatriceFonts.variable} lang={locale}>
       <body>
-        <CartProvider>
-          <NextIntlClientProvider>
-            <div className="min-h-screen">
-              <CartModal />
+        <ToastProvider>
+          <CartProvider>
+            <NextIntlClientProvider>
+              <div className="min-h-screen">
+                <CartModal />
 
-              <Header />
+                <Header />
 
-              {/* Overlay */}
-              {/* App Content */}
-              <div className="relative ">
-                {children}
-                {/* <VideoModal /> */}
-                <NewsletterModal />
+                {/* Overlay */}
+                {/* App Content */}
+                <div className="relative ">
+                  {children}
+                  {/* <VideoModal /> */}
+                  <NewsletterModal />
+                </div>
+
+                <Footer />
               </div>
-
-              <Footer />
-            </div>
-          </NextIntlClientProvider>
-        </CartProvider>
+            </NextIntlClientProvider>
+          </CartProvider>
+        </ToastProvider>
       </body>
     </html>
   );

@@ -4,9 +4,10 @@ import { imagesize } from "@/lib/tailwind/classNames";
 import type { Item } from "@/types/item";
 import AddToCartIcon from "@/assets/icons/add-to-cart.svg";
 import useCart from "../cart/useCart";
-// next router
-import { useRouter } from "next/navigation";
+import slugify from "slugify";
 
+// next router
+import { redirect } from "next/navigation";
 interface CustomCardProps {
   item: Item;
   index: number;
@@ -24,9 +25,13 @@ const CustomCard: React.FC<CustomCardProps> = ({
 }) => {
   const { addItem, removeItem, cartItems, totalPrice } = useCart();
 
-  const router = useRouter();
+  // Function to handle card click
   const handleCardClick = () => {
-    router.push(`/product-details`);
+    const slug = slugify(`${item?.name || "Item"}-${item?._id || "0"}`, {
+      lower: true,
+      strict: true,
+    });
+    redirect(`/product-details/${slug}`);
   };
   return (
     <div className="flex flex-col w-full h-full group">
@@ -37,7 +42,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
         {/* Image with zoom effect */}
         <Image
           onClick={handleCardClick}
-          src={item?.image || "/placeholder.svg"}
+          src={item?.images?.[0] || "/placeholder.svg"}
           alt={`Item ${index + 1}`}
           width={500}
           height={500}

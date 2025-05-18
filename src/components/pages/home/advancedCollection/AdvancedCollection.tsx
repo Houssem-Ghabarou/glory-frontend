@@ -1,81 +1,28 @@
-"use client";
-import React, { useState } from "react";
-import { mockPropsCard } from "@/mock/items";
-import TitleStack from "@/components/shared/titles/TitleStack";
-import CustomCard from "@/components/shared/cards/CustomCard";
-import ArrowDown from "@/assets/icons/arrow-down.svg";
-import Image from "next/image";
-import DefaultImageSlider from "@/components/shared/sliders/defaultImageSlider";
-const words = ["XIV", "COLLECTIONS", "2024"];
+import { filterSectionQuery } from "@/sanity/lib/queries";
+import { CollectionType } from "@/types/collectionType";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import AdvanceCollectionWrapper from "./AdvancedCollectionWrapper";
 
-const AdvancedCollection = () => {
-  const [visibleCount, setVisibleCount] = useState(4);
-  const hasMore = visibleCount < mockPropsCard.length;
-
-  const handleLoadMore = () => {
-    setVisibleCount(mockPropsCard.length); // or load by chunks
-  };
-
+const AdvancedCollection = async () => {
+  const filtredSections = await sanityFetch<CollectionType[]>({
+    query: filterSectionQuery,
+    params: {},
+  });
+  console.log(filtredSections, "filtredSections");
   return (
-    <section className="flex flex-col gap-8 w-full items-stretch">
-      <div className="flex justify-between items-center">
-        <div className="relative ">
-          <TitleStack words={words} />
-        </div>
-        <div className="hidden lg:flex justify-between items-center self-end ">
-          <div className="w-full">
-            <button className="text-secondary font-[400] text-[16px] cursor-pointer ">
-              See All
-            </button>
-          </div>
-        </div>
-      </div>
-      {/*  all men ,women kids */}
-      <div className="flex gap-8 items-center ">
-        <div className="cursor-pointer">(ALL)</div>
-        <div className="text-secondary-gray cursor-pointer">Men</div>
-        <div className="text-secondary-gray cursor-pointer">Women</div>
-        <div className="text-secondary-gray cursor-pointer">Kids</div>
-      </div>
-
-      <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {mockPropsCard.slice(0, visibleCount).map((item, index) => (
-          <CustomCard
-            item={item}
-            index={index}
-            labelEnabled={true}
-            addToCartEnabled={true}
-            key={index}
-          />
-        ))}
-      </div>
-
-      {hasMore && (
-        <div className="hidden lg:flex justify-center mt-4">
-          <button
-            onClick={handleLoadMore}
-            className=" flex flex-col items-center cursor-pointer"
-          >
-            <div className="text-secondary-gray ">Load More</div>
-            <Image
-              src={ArrowDown}
-              alt="Load More"
-              width={24}
-              height={24}
-              className="mt-2 cursor-pointer"
-            />
-          </button>
-        </div>
-      )}
-      <div className="lg:hidden w-full">
-        <DefaultImageSlider
-          data={mockPropsCard}
-          addToCartEnabled={true}
-          labelEnabled={true}
-          labelEnabledPhone={true}
-        />
-      </div>
-    </section>
+    <div className="flex flex-col gap-8 w-full items-stretch">
+      {filtredSections?.map((section) => {
+        const propertyRefs = section?.propertyRefs || [];
+        const formattedRefs = propertyRefs?.map((ref: any) => ref?.id);
+        if (formattedRefs?.length === 0) {
+          return null;
+        } else {
+          return (
+            <AdvanceCollectionWrapper key={section._id} section={section} />
+          );
+        }
+      })}
+    </div>
   );
 };
 

@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import SearchIcon from "@/assets/icons/searchIcon.svg";
 import Image from "next/image";
 const SearchInput = () => {
   return (
-    <div className="w-full relative flex items-center border border-[#D9D9D9] rounded-[2px] rounded bg-[#D9D9D9] focus-within:ring-[1px] focus-within:ring-black-500">
+    <div className="w-full relative flex items-center border border-[#D9D9D9] rounded-[2px]  bg-[#D9D9D9] focus-within:ring-[1px] focus-within:ring-black-500">
       <button className="px-4">
         <Image
           src={SearchIcon}
