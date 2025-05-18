@@ -3,7 +3,14 @@
 import React, { useEffect } from "react";
 import SearchIcon from "@/assets/icons/searchIcon.svg";
 import Image from "next/image";
-const SearchInput = () => {
+import { Product } from "@/types/models/product";
+const SearchInput = ({
+  handleSearch,
+  products,
+}: {
+  handleSearch: (searchTerm: string) => void;
+  products: Product[]; // Replace 'any' with the actual type of your products
+}) => {
   return (
     <div className="w-full relative flex items-center border border-[#D9D9D9] rounded-[2px]  bg-[#D9D9D9] focus-within:ring-[1px] focus-within:ring-black-500">
       <button className="px-4">
@@ -16,6 +23,10 @@ const SearchInput = () => {
         />
       </button>
       <input
+        onChange={(e) => {
+          const searchTerm = e.target.value?.toLowerCase();
+          handleSearch(searchTerm);
+        }}
         type="text"
         placeholder="Search"
         className="w-full py-4 px-2 bg-transparent focus:outline-none text-right  placeholder:text-primary-gray "

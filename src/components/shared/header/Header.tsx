@@ -49,12 +49,14 @@ const Header = () => {
       }
     };
 
+    // Run it once on mount to sync initial state
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const menu = document.querySelector(".mobile-menu");

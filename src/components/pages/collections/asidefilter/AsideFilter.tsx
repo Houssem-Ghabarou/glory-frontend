@@ -3,54 +3,18 @@
 import { useState, useEffect } from "react";
 import { FilterSidebar } from "@/components/shared/collapsibleFilter/filter-sidebar";
 import type { FilterConfig, FilterState } from "@/types/filters";
-
-export default function AsideFilter() {
-  // Define your filter configurations
-  const filterConfigs: FilterConfig[] = [
-    {
-      id: "availability",
-      title: "Availability",
-      type: "checkbox",
-      options: [
-        { id: "in_stock", label: "In Stock", count: 450 },
-        { id: "out_of_stock", label: "Out Of Stock", count: 18 },
-      ],
-      defaultOpen: true,
-    },
-    {
-      id: "price",
-      title: "Price Range",
-      type: "price",
-      priceRange: { min: 0, max: 1000, defaultValue: [100, 500] },
-      defaultOpen: true,
-    },
-    {
-      id: "size",
-      title: "Size",
-      type: "size",
-      options: [
-        { id: "xs", label: "XS" },
-        { id: "s", label: "S" },
-        { id: "m", label: "M" },
-        { id: "l", label: "L" },
-        { id: "xl", label: "XL" },
-        { id: "2x", label: "2X" },
-      ],
-      defaultOpen: true,
-    },
-    {
-      id: "color",
-      title: "Color",
-      type: "checkbox",
-      options: [
-        { id: "black", label: "Black", count: 120 },
-        { id: "white", label: "White", count: 205 },
-        { id: "red", label: "Red", count: 85 },
-        { id: "blue", label: "Blue", count: 67 },
-      ],
-      defaultOpen: false,
-    },
-  ];
+import { Product } from "@/types/models/product";
+import { generateFilterConfigs } from "@/lib/utils/generateFilterConfigs";
+import filterProducts from "./filterProducts";
+interface AsideFilterProps {
+  products: Product[];
+  setFilteredProducts: (products: Product[]) => void;
+}
+export default function AsideFilter({
+  products,
+  setFilteredProducts,
+}: AsideFilterProps) {
+  const filterConfigs = generateFilterConfigs(products);
 
   const [filterState, setFilterState] = useState<FilterState>({});
   const [queryParams, setQueryParams] = useState<string>("");
@@ -109,6 +73,9 @@ export default function AsideFilter() {
       `POST request with body:`,
       JSON.stringify(filterState, null, 2)
     );
+    const filteredProducts = filterProducts(products, filterState);
+    console.log("Filtered products:", filteredProducts);
+    setFilteredProducts(filteredProducts);
     // Example POST request:
     // const response = await fetch('/api/products/filter', {
     //   method: 'POST',

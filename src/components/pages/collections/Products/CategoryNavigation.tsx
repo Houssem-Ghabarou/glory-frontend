@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 // Categories for clothing items
 const categories = [
+  "ALL",
   "NEW",
   "BEST SELLERS",
   "SHIRTS",

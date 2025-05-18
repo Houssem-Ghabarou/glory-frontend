@@ -1,14 +1,19 @@
 import React from "react";
 import ProductHeader from "./ProductHeader";
 import CustomCard from "@/components/shared/cards/CustomCard";
-import { mockPropsCard } from "@/mock/items";
-const ProductsView = () => {
+import { Product } from "@/types/models/product";
+
+interface ProductsViewProps {
+  products: Product[];
+  handleSearch: (searchTerm: string) => void;
+}
+const ProductsView = ({ products, handleSearch }: ProductsViewProps) => {
   return (
     <div className="flex-1">
       <div className="flex flex-col gap-4">
-        <ProductHeader />
+        <ProductHeader handleSearch={handleSearch} products={products} />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {mockPropsCard.map((item, index) => (
+          {products?.map((item, index) => (
             <CustomCard
               item={item}
               index={index}
