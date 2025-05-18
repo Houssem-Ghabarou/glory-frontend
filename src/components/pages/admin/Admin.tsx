@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import admin from "@/assets/images/admin.png";
 import blacklogo from "@/assets/logo/blacklogo.svg";
-import { getProducts, getOrders } from "@/lib/prod";
+import { getProducts, getOrders } from "@/lib/api/prod";
 import { Product } from "@/types/models/product";
 import { Order } from "@/types/models/order";
 import PublishedProducts from "../../shared/PublishedProducts/PublishedProducts";

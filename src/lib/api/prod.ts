@@ -1,5 +1,5 @@
 //lib/prod.ts
-import { getErrorMessage } from "./getErrorMessage";
+import { getErrorMessage } from "../getErrorMessage";
 
 export const getProducts = async () => {
   const res = await fetch("http://localhost:5000/products/product");
