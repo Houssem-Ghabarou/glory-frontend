@@ -1,8 +1,8 @@
 import slugify from "slugify";
-import { Item } from "@/types/item";
+import { Product } from "@/types/models/product";
 // Function to handle card click
 export const handleCardClick = (
-  item: Item,
+  item: Product,
   redirect: (url: string) => void
 ) => {
   const slug = slugify(`${item?.name || "Item"}-${item?._id || "0"}`, {

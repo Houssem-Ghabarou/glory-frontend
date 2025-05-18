@@ -2,10 +2,11 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 import { Item } from "@/types/item";
+import { Product } from "@/types/models/product";
 
 type CartContextType = {
   cartItems: Item[];
-  addItem: (item: Item) => void;
+  addItem: (item: Product) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
   totalPrice: number;
@@ -22,12 +23,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleCart = () => setCartOpen((prev) => !prev);
 
-  const addItem = (item: Item) => {
+  const addItem = (item: Product) => {
     setCartItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
+      const existing = prev.find((i) => i._id === item._id);
       if (existing) {
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+          i._id === item._id
+            ? { ...i, quantity: i.quantity + item.quantity }
+            : i
         );
       }
       return [...prev, item];
@@ -35,7 +38,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => prev.filter((item) => item._id !== id));
   };
 
   const clearCart = () => setCartItems([]);

@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { Product } from "@/types/models/product";
+import { handleCardClick } from "../../../lib/navigation/navigateToDetails";
+import { redirect } from "next/navigation";
 
 interface PublishedProductsProps {
   products: Product[];
@@ -19,7 +21,8 @@ const PublishedProducts: React.FC<PublishedProductsProps> = ({ products }) => {
         return (
           <div
             key={product._id}
-            className="p-4 flex flex-col bg-white shadow-sm hover:shadow transition-shadow"
+            className="p-4 flex flex-col bg-white shadow-sm hover:shadow transition-shadow cursor-pointer"
+            onClick={() => handleCardClick(product, redirect)}
           >
             {/* Image container */}
             <div className="relative w-full h-40 bg-gray-100 mb-4 flex items-center justify-center overflow-hidden rounded">

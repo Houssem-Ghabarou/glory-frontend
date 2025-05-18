@@ -19,4 +19,6 @@ export interface Product {
   variations: ProductVariation[];
   createdAt?: string;
   updatedAt?: string;
+  onSale?: boolean;
+  isNew?: boolean;
 }

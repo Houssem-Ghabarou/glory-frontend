@@ -339,7 +339,6 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
         <Textarea
           id="description"
           placeholder="Décris ton produit..."
-          ref={textareaRef}
           aria-describedby={
             errors.description ? "description-error" : undefined
           }

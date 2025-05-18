@@ -9,8 +9,9 @@ import slugify from "slugify";
 // next router
 import { redirect } from "next/navigation";
 import { handleCardClick } from "@/lib/navigation/navigateToDetails";
+import { Product } from "@/types/models/product";
 interface CustomCardProps {
-  item: Item;
+  item: Product;
   index: number;
   labelEnabled: boolean;
   labelEnabledPhone?: boolean;
