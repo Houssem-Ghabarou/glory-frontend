@@ -8,6 +8,7 @@ import slugify from "slugify";
 
 // next router
 import { redirect } from "next/navigation";
+import { handleCardClick } from "@/lib/navigation/navigateToDetails";
 interface CustomCardProps {
   item: Item;
   index: number;
@@ -25,14 +26,6 @@ const CustomCard: React.FC<CustomCardProps> = ({
 }) => {
   const { addItem, removeItem, cartItems, totalPrice } = useCart();
 
-  // Function to handle card click
-  const handleCardClick = () => {
-    const slug = slugify(`${item?.name || "Item"}-${item?._id || "0"}`, {
-      lower: true,
-      strict: true,
-    });
-    redirect(`/product-details/${slug}`);
-  };
   return (
     <div className="flex flex-col w-full h-full group">
       {/* Image Container */}
@@ -41,7 +34,9 @@ const CustomCard: React.FC<CustomCardProps> = ({
       >
         {/* Image with zoom effect */}
         <Image
-          onClick={handleCardClick}
+          onClick={() => {
+            handleCardClick(item, redirect);
+          }}
           src={item?.images?.[0] || "/placeholder.svg"}
           alt={`Item ${index + 1}`}
           width={500}
