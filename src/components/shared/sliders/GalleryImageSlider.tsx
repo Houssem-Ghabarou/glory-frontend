@@ -50,42 +50,16 @@ function ThumbnailPlugin(
   };
 }
 
+const transformImage = (image: string) => {
+  return {
+    original: image,
+    thumbnail: image,
+    // description: "Image description",
+  };
+};
 export default function ImageGallery({ images }: ImageGalleryProps) {
   const productDetailItem = {
-    images: [
-      {
-        original: cloth1.src,
-        thumbnail: cloth1.src,
-      },
-      {
-        original: cloth1.src,
-        thumbnail: cloth1.src,
-      },
-      {
-        original: cloth1.src,
-        thumbnail: cloth1.src,
-      },
-      {
-        original: cloth1.src,
-        thumbnail: cloth1.src,
-      },
-      {
-        original: cloth1.src,
-        thumbnail: cloth1.src,
-      },
-    ],
-    title: "BIG ITALIAN SOFA",
-    reviews: "150",
-    availability: true,
-    brand: "apex",
-    category: "Sofa",
-    sku: "BE45VGTRK",
-    price: 450,
-    previousPrice: 599,
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem exercitationem voluptate sint eius ea assumenda provident eos repellendus qui neque! Velit ratione illo maiores voluptates commodi eaque illum, laudantium non!",
-    size: ["XS", "S", "M", "L", "XL"],
-    color: ["gray", "violet", "red"],
+    images: images.map((image) => transformImage(image)),
   };
 
   return (

@@ -14,9 +14,9 @@ export default async function ProductDetailPage({
     return id;
   };
   const id = getIdFromSlug(slug);
-
+  let product;
   try {
-    const product = await getProductDetailsById(id);
+    product = await getProductDetailsById(id);
     console.log("Product details:", product);
   } catch (error) {
     console.error("Error fetching product details:", error);
@@ -25,7 +25,7 @@ export default async function ProductDetailPage({
 
   return (
     <div className={`min-h-screen ${pagesMargin}`}>
-      <ProductDetail />
+      <ProductDetail product={product} />
     </div>
   );
 }

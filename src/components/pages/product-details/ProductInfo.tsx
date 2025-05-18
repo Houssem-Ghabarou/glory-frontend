@@ -1,25 +1,27 @@
-import { useState } from "react";
-import { classNames as cn } from "@/lib/tailwind/classNames";
+import { useMemo, useState } from "react";
 import ColorSelector from "./ColorSelector";
 import SizeSelector from "./SizeSelector";
 import AddToCartButton from "./AddToCartButton";
+import { Product } from "@/types/models/product";
 
-const productColors = [
-  { name: "Black", value: "#000000", className: "bg-black" },
-  {
-    name: "White",
-    value: "#FFFFFF",
-    className: "bg-white border border-gray-200",
-  },
-  { name: "Mint", value: "#A3E4D7", className: "bg-[#A3E4D7]" },
-  { name: "Lavender", value: "#D2B4DE", className: "bg-[#D2B4DE]" },
-];
+interface ProductInfoProps {
+  product: Product;
+}
 
-const productSizes = ["S", "M", "L", "XL", "XXL"];
+export default function ProductInfo({ product }: ProductInfoProps) {
+  const uniqueColors = useMemo(() => {
+    return Array.from(new Set(product.variations.map((v) => v.color)));
+  }, [product]);
 
-export default function ProductInfo() {
-  const [selectedColor, setSelectedColor] = useState(productColors[0]);
-  const [selectedSize, setSelectedSize] = useState("M");
+  const [selectedColor, setSelectedColor] = useState(uniqueColors[0]);
+
+  const availableSizes = useMemo(() => {
+    return product.variations
+      .filter((v) => v.color === selectedColor)
+      .map((v) => v.size);
+  }, [product, selectedColor]);
+
+  const [selectedSize, setSelectedSize] = useState(availableSizes[0]);
 
   return (
     <div className="w-full flex flex-col h-full justify-between self-center">
@@ -27,9 +29,11 @@ export default function ProductInfo() {
         <div className="space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              Premium Cotton T-Shirt
+              {product.name}
             </h1>
-            <p className="mt-2 text-xl text-gray-900">$49.99</p>
+            <p className="mt-2 text-xl text-gray-900">
+              ${product.price.toFixed(2)}
+            </p>
             <div className="mt-2 flex items-center">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
@@ -43,33 +47,42 @@ export default function ProductInfo() {
                   </svg>
                 ))}
               </div>
-              <p className="ml-2 text-sm text-gray-500">42 reviews</p>
+              {/* <p className="ml-2 text-sm text-gray-500">42 reviews</p> */}
             </div>
           </div>
 
           <div>
             <h2 className="text-sm font-medium text-gray-900">Description</h2>
             <p className="mt-2 text-sm text-gray-500">
-              Our premium cotton t-shirt offers unmatched comfort with a modern
-              fit. Made from 100% organic cotton, it's both sustainable and
-              durable.
+              {product.description || "No description available."}
             </p>
           </div>
 
           <ColorSelector
-            colors={productColors}
+            colors={uniqueColors}
             selectedColor={selectedColor}
-            onSelect={setSelectedColor}
+            onSelect={(color) => {
+              setSelectedColor(color);
+              const sizes = product.variations
+                .filter((v) => v.color === color)
+                .map((v) => v.size);
+              setSelectedSize(sizes[0] || "");
+            }}
           />
 
           <SizeSelector
-            sizes={productSizes}
+            sizes={availableSizes}
             selectedSize={selectedSize}
             onSelect={setSelectedSize}
           />
         </div>
 
-        <AddToCartButton />
+        <AddToCartButton
+          product={product}
+          key={product._id}
+          selectedColor={selectedColor}
+          selectedSize={selectedSize}
+        />
       </div>
     </div>
   );

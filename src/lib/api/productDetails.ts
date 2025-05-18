@@ -1,12 +1,12 @@
 import { getter } from "@/axios/api";
-import { Item as ProductItem } from "@/types/item";
+import { Product } from "@/types/models/product";
 
 export const getProductDetailsById = async (
   productId: string
-): Promise<ProductItem> => {
+): Promise<Product> => {
   try {
     const res = await getter(`/products/product/${productId}`);
-    return res as ProductItem;
+    return res as Product;
   } catch (err) {
     console.error("Error fetching product details:", err);
     throw new Error("Failed to fetch product details");

@@ -10,6 +10,7 @@ import cloth2 from "@/assets/images/cloth2.png";
 import cloth3 from "@/assets/images/cloth3.jpg";
 import cloth4 from "@/assets/images/cloth4.jpg";
 import photodetails from "@/assets/images/photodetails.jpg";
+import { Product } from "@/types/models/product";
 
 const productImages = [
   photodetails.src,
@@ -22,9 +23,14 @@ const productImages = [
   cloth1.src,
   cloth1.src,
 ];
+interface ProductDetailProps {
+  product: Product;
+}
 
-export default function ProductDetail() {
+export default function ProductDetail({ product }: ProductDetailProps) {
   const isMobile = useIsMobile();
+
+  const productImages = product?.images;
 
   return (
     <div className="px-4 py-10 lg:px-12 xl:px-20 mx-auto">
@@ -32,7 +38,7 @@ export default function ProductDetail() {
         <div className="w-full">
           <ImageGallery images={productImages} />
         </div>
-        <ProductInfo />
+        <ProductInfo product={product} />
       </div>
     </div>
   );
