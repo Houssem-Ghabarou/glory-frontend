@@ -9,12 +9,18 @@ import { envconf } from "./lib/env/envconf";
 const intlMiddleware = createMiddleware(routing);
 
 export function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname;
+
+  // Skip i18n middleware for paths starting with /studio
+  if (pathname.startsWith("/studio")) {
+    return NextResponse.next();
+  }
+
   // First apply the i18n middleware (for locale detection and redirects)
   const intlResponse = intlMiddleware(req);
   if (intlResponse) {
     // If i18n middleware returns a response, proceed with that
     // unless we need to do auth (based on pathname)
-    const pathname = req.nextUrl.pathname;
 
     // Apply auth only on admin or home paths
     if (pathname.startsWith("/admin") || pathname.startsWith("/home")) {

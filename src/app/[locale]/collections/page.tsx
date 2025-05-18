@@ -1,6 +1,6 @@
 import React from "react";
 import { pagesMargin } from "@/lib/tailwind/classNames";
-import ProductCollections from "@/components/pages/product-collections/ProductCollections";
+import ProductCollections from "@/components/pages/collections/ProductCollections";
 const page = () => {
   return (
     <div className={`${pagesMargin} min-h-screen`}>

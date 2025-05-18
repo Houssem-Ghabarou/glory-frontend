@@ -1,10 +1,18 @@
-import React from "react";
-import { mockPropsCard } from "@/mock/items";
 import DefaultImageSlider from "@/components/shared/sliders/defaultImageSlider";
 import TitleStack from "@/components/shared/titles/TitleStack";
+import { mockPropsCard } from "@/mock/items";
+import React from "react";
+import { CollectionType } from "@/types/collectionType";
 
-const words = ["NEW", "THIS WEEk"];
-const NewThisWeek = () => {
+const Section = (props: CollectionType) => {
+  const { title, subtitle, propertyRefs, _createdAt, _id, thirdTitle } = props;
+
+  const words = [];
+  if (title) words.push(title);
+  if (subtitle) words.push(subtitle);
+  if (thirdTitle) words.push(thirdTitle);
+
+  const productsLength = propertyRefs?.length || 0;
   return (
     <section className="flex flex-col gap-8 w-full items-stretch">
       <div className="flex justify-between items-center">
@@ -12,7 +20,7 @@ const NewThisWeek = () => {
           <TitleStack words={words} />
           {/* (50) in right top  */}
           <div className="absolute top-[20px] right-[-43px] text-[#000E8A] font-[800] text-[20px]">
-            (50)
+            ({productsLength})
           </div>
         </div>
         {/* see all  */}
@@ -35,4 +43,4 @@ const NewThisWeek = () => {
   );
 };
 
-export default NewThisWeek;
+export default Section;

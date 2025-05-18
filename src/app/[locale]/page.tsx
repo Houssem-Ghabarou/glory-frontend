@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Search from "@/components/pages/home/search/Search";
 import { pagesMargin } from "@/lib/tailwind/classNames";
 import DynamicCollection from "@/components/pages/home/dynamicCollection/DynamicCollection";
-import NewThisWeek from "@/components/pages/home/newthisweek/NewThisWeek";
+import CollectionSections from "@/components/pages/home/CollectionsSection/CollectionsSection";
 import AdvancedCollection from "@/components/pages/home/advancedCollection/AdvancedCollection";
 import Appraoch from "@/components/pages/home/approach/Appraoch";
 
@@ -15,7 +15,7 @@ export default function Home() {
     >
       <Search />
       <DynamicCollection />
-      <NewThisWeek />
+      <CollectionSections />
       <AdvancedCollection />
       <Appraoch />
     </div>

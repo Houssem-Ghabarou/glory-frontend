@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
   },
   images: {
     domains: ["res.cloudinary.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
+    ],
   },
 };
 

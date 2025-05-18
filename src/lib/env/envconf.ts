@@ -38,4 +38,5 @@ export const envconf = {
   ENABLE_FEATURE_X: getBooleanEnv("ENABLE_FEATURE_X", false),
   PORT: getNumberEnv("PORT", 3000),
   OPTIONAL_SECRET: getOptionalEnv("OPTIONAL_SECRET"),
+  sanityToken: getEnv("NEXT_PUBLIC_SANITY_API_READ_TOKEN"),
 };
