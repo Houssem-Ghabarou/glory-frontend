@@ -2,12 +2,12 @@ import React, { useImperativeHandle, forwardRef } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import styles from "./ImagesSlider.module.css";
 import { imagesize } from "@/lib/tailwind/classNames";
-import { Item } from "@/types/item";
 import CustomCard from "../cards/CustomCard";
 import { mockPropsCard } from "@/mock/items";
+import { Product } from "@/types/models/product";
 
 interface ImagesSliderProps {
-  data: Item[];
+  data: Product[];
 }
 
 export interface SliderRef {

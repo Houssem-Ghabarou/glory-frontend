@@ -5,11 +5,11 @@ import { mockPropsCard } from "@/mock/items";
 import React from "react";
 import { CollectionType } from "@/types/collectionType";
 
-import { Item as ProductType } from "@/types/item";
+import { Product } from "@/types/models/product";
 import { useRouter } from "next/navigation";
 
 type Props = CollectionType & {
-  products: ProductType[];
+  products: Product[];
 };
 const Section = (props: Props) => {
   const {

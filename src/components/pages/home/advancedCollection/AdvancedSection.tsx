@@ -7,10 +7,10 @@ import ArrowDown from "@/assets/icons/arrow-down.svg";
 import Image from "next/image";
 import DefaultImageSlider from "@/components/shared/sliders/defaultImageSlider";
 import { CollectionType } from "@/types/collectionType";
-import { Item as ProductType } from "@/types/item";
 import { useRouter } from "next/navigation";
+import { Product } from "@/types/models/product";
 type Props = CollectionType & {
-  products: ProductType[];
+  products: Product[];
 };
 
 const AdvancedSection = (props: Props) => {

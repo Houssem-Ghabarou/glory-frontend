@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { X, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import useCart from "./useCart";
-import { Item } from "@/types/item";
-
+import { Product } from "@/types/models/product";
 export default function CartModal() {
   const { cartItems, removeItem, totalPrice, toggleCart, cartOpen } = useCart();
 
@@ -46,14 +44,14 @@ export default function CartModal() {
               </div>
             ) : (
               <ul className="space-y-4">
-                {cartItems.map((item: Item) => (
+                {cartItems.map((item: Product) => (
                   <li
-                    key={item.id}
+                    key={item._id}
                     className="flex items-center gap-4 p-2 border rounded-lg"
                   >
                     <div className="relative h-20 w-20 rounded-md overflow-hidden bg-gray-100">
                       <Image
-                        src={item.image || "/placeholder.svg"}
+                        src={item.images?.[0] || "/placeholder.svg"}
                         alt={item.name}
                         fill
                         className="object-cover"
@@ -71,7 +69,7 @@ export default function CartModal() {
                       </p>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item._id)}
                       className="p-1 text-gray-400 hover:text-rose-500 transition-colors duration-200"
                       aria-label={`Remove ${item.name} from cart`}
                     >

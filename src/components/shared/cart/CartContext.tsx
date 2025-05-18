@@ -1,11 +1,10 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Item } from "@/types/item";
 import { Product } from "@/types/models/product";
 
 type CartContextType = {
-  cartItems: Item[];
+  cartItems: Product[];
   addItem: (item: Product) => void;
   removeItem: (id: string) => void;
   clearCart: () => void;
@@ -17,7 +16,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<Item[]>([]);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
   //cartOpen
   const [cartOpen, setCartOpen] = useState(false);
 

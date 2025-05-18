@@ -3,12 +3,13 @@ import React, { useRef } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import styles from "./ImagesSlider.module.css";
 import { imagesize } from "@/lib/tailwind/classNames";
-import { Item } from "@/types/item";
+import {} from "@/types/item";
 import CustomCard from "../cards/CustomCard";
 import Swiper from "../Swiper/Swiper";
+import { Product } from "@/types/models/product";
 
 interface ImagesSliderProps {
-  data: Item[];
+  data: Product[];
   labelEnabled?: boolean;
   labelEnabledPhone?: boolean;
   addToCartEnabled?: boolean;

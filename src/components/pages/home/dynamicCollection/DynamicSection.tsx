@@ -9,10 +9,9 @@ import ImagesSlider, {
 } from "@/components/shared/sliders/ImagesSlider";
 import TitleStack from "@/components/shared/titles/TitleStack";
 import { CollectionType } from "@/types/collectionType";
-import { Item as ProductType } from "@/types/item";
-
+import { Product } from "@/types/models/product";
 type Props = CollectionType & {
-  products: ProductType[];
+  products: Product[];
 };
 
 const DynamicSection = ({

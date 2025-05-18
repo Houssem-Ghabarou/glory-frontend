@@ -1,7 +1,7 @@
 import { getter } from "@/axios/api";
 import { CollectionType } from "@/types/collectionType";
-import { Item } from "@/types/item";
 import DynamicSection from "./DynamicSection";
+import { Product } from "@/types/models/product";
 
 type Props = {
   section: CollectionType;
@@ -11,11 +11,11 @@ const DynamicSectionWrapper = async ({ section }: Props) => {
   const { propertyRefs = [] } = section;
   const formattedRefs = propertyRefs?.map((ref: any) => ref.id);
 
-  let products: Item[] = [];
+  let products: Product[] = [];
 
   if (propertyRefs?.length) {
     try {
-      products = await getter<Item[]>("/products/products/by-references", {
+      products = await getter<Product[]>("/products/products/by-references", {
         references: formattedRefs.join(","),
       });
     } catch (error) {
