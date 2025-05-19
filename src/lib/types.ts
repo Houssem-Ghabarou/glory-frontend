@@ -21,8 +21,9 @@ export interface ProductFormData {
 }
 
 export interface PreviewImage {
-  url?: string;
-  file?: File;
+  url: string; // URL pour affichage
+  preview: string; // base64 ou url pour preview
+  file?: File; // Le fichier uploadé, obligatoire pour envoyer au backend
 }
 
 export function buildFormData(
@@ -49,7 +50,7 @@ export function buildFormData(
     flatVariations.push({
       color,
       name: colorName,
-      sizes, // Send sizes as an object (e.g., { "S": 10, "M": 20 })
+      sizes,
     });
   }
   formData.append("variations", JSON.stringify(flatVariations));

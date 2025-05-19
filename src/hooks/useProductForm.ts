@@ -49,14 +49,11 @@ export default function useProductForm(product?: Product, isEdit = false) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (values: ProductFormData) => {
     setIsSubmitting(true);
     setErrorMessage(null);
 
     try {
-      const values = form.getValues();
-
       // Validate variations
       const hasValidVariations = Object.values(variations).some(
         (sizes) => Object.keys(sizes).length > 0
@@ -140,6 +137,8 @@ export default function useProductForm(product?: Product, isEdit = false) {
       setIsSubmitting(false);
     }
   };
+
+  const handleSubmit = form.handleSubmit(onSubmit);
 
   return {
     form,

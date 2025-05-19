@@ -1,7 +1,9 @@
+"use client";
 import { useDropzone } from "react-dropzone";
 import { Upload, X } from "lucide-react";
 import { PreviewImage } from "../../../lib/types";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 interface ImageUploaderProps {
   previewImages: PreviewImage[];
@@ -26,13 +28,16 @@ export default function ImageUploader({
         return;
       }
 
-      const newFiles = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      ) as PreviewImage[];
+      const newFiles: PreviewImage[] = acceptedFiles.map((file) => {
+        const previewUrl = URL.createObjectURL(file);
+        return {
+          file,
+          preview: previewUrl,
+          url: previewUrl,
+        };
+      });
       setPreviewImages([...previewImages, ...newFiles]);
-    },
+    }, // <-- fermeture onDrop ici
   });
 
   const removeImage = (index: number) => {
@@ -43,6 +48,14 @@ export default function ImageUploader({
     newImages.splice(index, 1);
     setPreviewImages(newImages);
   };
+
+  useEffect(() => {
+    return () => {
+      previewImages.forEach((img) => {
+        if (img.preview) URL.revokeObjectURL(img.preview);
+      });
+    };
+  }, [previewImages]);
 
   return (
     <div className="space-y-4">
