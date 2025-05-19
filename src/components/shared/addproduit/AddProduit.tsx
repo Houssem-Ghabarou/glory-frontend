@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,10 +5,21 @@ import BasicInfoTab from "./BasicInfoTab";
 import VariationsTab from "./VariationsTab";
 import ImagesTab from "./ImagesTab";
 import useProductForm from "../../../hooks/useProductForm";
-import { Color, Variations, FormData, PreviewImage } from "../../../lib/types";
+import {
+  Color,
+  Variations,
+  ProductFormData,
+  PreviewImage,
+} from "../../../lib/types";
 import { UseFormReturn } from "react-hook-form";
+import { Product } from "@/types/models/product";
 
-export default function AddProduct() {
+interface AddProductProps {
+  product?: Product;
+  isEdit: boolean;
+}
+
+export default function AddProduct({ product, isEdit }: AddProductProps) {
   const [activeTab, setActiveTab] = useState<"basic" | "variations" | "images">(
     "basic"
   );
@@ -20,21 +29,23 @@ export default function AddProduct() {
     selectedColors,
     previewImages,
     isSubmitting,
+    errorMessage,
     handleSubmit,
     setSelectedColors,
     setVariations,
     setPreviewImages,
   }: {
-    form: UseFormReturn<FormData>;
+    form: UseFormReturn<ProductFormData>;
     variations: Variations;
     selectedColors: Color[];
     previewImages: PreviewImage[];
     isSubmitting: boolean;
+    errorMessage: string | null;
     handleSubmit: (e: React.FormEvent) => void;
     setSelectedColors: React.Dispatch<React.SetStateAction<Color[]>>;
     setVariations: React.Dispatch<React.SetStateAction<Variations>>;
     setPreviewImages: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
-  } = useProductForm();
+  } = useProductForm(product, isEdit);
 
   const nextTab = () => {
     if (activeTab === "basic") setActiveTab("variations");
@@ -50,6 +61,9 @@ export default function AddProduct() {
     <div className="max-w-3xl mx-auto p-4">
       <Card>
         <CardContent className="pt-6">
+          {errorMessage && activeTab === "basic" && (
+            <p className="text-red-500 mb-4">{errorMessage}</p>
+          )}
           <form onSubmit={handleSubmit}>
             <Tabs
               value={activeTab}
@@ -76,6 +90,7 @@ export default function AddProduct() {
                   setVariations={setVariations}
                   prevTab={prevTab}
                   nextTab={nextTab}
+                  errorMessage={errorMessage}
                 />
               )}
 
@@ -85,6 +100,8 @@ export default function AddProduct() {
                   setPreviewImages={setPreviewImages}
                   prevTab={prevTab}
                   isSubmitting={isSubmitting}
+                  isEdit={isEdit}
+                  errorMessage={errorMessage} // Pass errorMessage
                 />
               )}
             </Tabs>

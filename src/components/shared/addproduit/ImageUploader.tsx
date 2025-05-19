@@ -2,6 +2,7 @@ import { useDropzone } from "react-dropzone";
 import { Upload, X } from "lucide-react";
 import { PreviewImage } from "../../../lib/types";
 import toast from "react-hot-toast";
+
 interface ImageUploaderProps {
   previewImages: PreviewImage[];
   setPreviewImages: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
@@ -36,7 +37,9 @@ export default function ImageUploader({
 
   const removeImage = (index: number) => {
     const newImages = [...previewImages];
-    URL.revokeObjectURL(newImages[index].preview);
+    if (newImages[index].preview) {
+      URL.revokeObjectURL(newImages[index].preview!);
+    }
     newImages.splice(index, 1);
     setPreviewImages(newImages);
   };
@@ -67,8 +70,8 @@ export default function ImageUploader({
             {previewImages.map((file, index) => (
               <div key={index} className="relative group">
                 <img
-                  src={file.preview || "/placeholder.svg"}
-                  alt={`Preview ${index}`}
+                  src={file.preview || file.url || "/placeholder.svg"}
+                  alt={`Image ${index + 1}`}
                   className="w-full h-24 object-cover rounded-lg border"
                 />
                 <button

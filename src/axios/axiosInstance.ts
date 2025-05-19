@@ -12,4 +12,4 @@ export const setAxiosErrorHandler = (handler: ErrorHandler) => {
 export const axiosInstance = axios.create({
   baseURL: envconf.API_URL,
   headers: { "Content-Type": "application/json" },
-});
+}); 

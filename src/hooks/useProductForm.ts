@@ -1,109 +1,141 @@
+import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
-import { toast } from "@/components/ui/use-toast";
-import { SIZES } from "../lib/constants";
-import type { Color, Variations, FormData, PreviewImage } from "../lib/types";
+import { ProductFormData, Color, PreviewImage, Variations } from "../lib/types";
+import { buildFormData } from "../lib/types";
+import { Product } from "@/types/models/product";
 
-export default function useProductForm() {
-  const [selectedColors, setSelectedColors] = useState<Color[]>([]);
-  const [variations, setVariations] = useState<Variations>({});
-  const [previewImages, setPreviewImages] = useState<PreviewImage[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const form: UseFormReturn<FormData> = useForm<FormData>({
+export default function useProductForm(product?: Product, isEdit = false) {
+  const form = useForm<ProductFormData>({
     defaultValues: {
-      name: "",
-      collection: "",
-      price: "",
-      description: "",
-      category: "",
-      featured: false,
+      name: product?.name || "",
+      collection: product?.collection || "",
+      price: product?.price?.toString() || "",
+      description: product?.description || "",
+      category: product?.category || "",
+      sale: product?.sale?.toString() || "0",
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const [variations, setVariations] = useState<Variations>(() => {
+    if (!product?.variations || !Array.isArray(product.variations)) {
+      return {};
+    }
+    return product.variations.reduce((acc: Variations, v: any) => {
+      const sizes =
+        typeof v.sizes === "object" && v.sizes !== null ? v.sizes : {};
+      acc[v.color] = sizes;
+      return acc;
+    }, {});
+  });
+
+  const [selectedColors, setSelectedColors] = useState<Color[]>(
+    product?.variations?.map((v: any) => {
+      const colorName =
+        v.name || v.color.charAt(0).toUpperCase() + v.color.slice(1);
+      return {
+        name: colorName,
+        value: v.color,
+      };
+    }) || []
+  );
+
+  const [previewImages, setPreviewImages] = useState<PreviewImage[]>(
+    product?.images?.map((url: string) => ({
+      url,
+      preview: url,
+    })) || []
+  );
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage(null);
 
     try {
-      // Limit to 5 images
-      if (previewImages.length > 5) {
-        toast({
-          title: "Erreur",
-          description: "Vous ne pouvez uploader que 5 images maximum.",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
+      const values = form.getValues();
+
+      // Validate variations
+      const hasValidVariations = Object.values(variations).some(
+        (sizes) => Object.keys(sizes).length > 0
+      );
+      if (!hasValidVariations) {
+        throw new Error(
+          "At least one variation with sizes and stock is required"
+        );
       }
 
-      // Map variations to backend format
-      const allVariations: { color: string; size: string; stock: number }[] =
-        [];
-      for (const colorObj of selectedColors) {
-        const colorValue = colorObj.value;
-        const colorName = colorObj.name; // Map to 'color' in backend
-
-        for (const size of SIZES) {
-          if (variations[colorValue]?.[size] > 0) {
-            allVariations.push({
-              color: colorName, // Use colorName as 'color' for backend
-              size,
-              stock: variations[colorValue][size] || 0,
-            });
-          }
-        }
+      // Validate required fields
+      if (!values.name || !values.collection || !values.price) {
+        throw new Error("Name, collection, and price are required");
       }
 
-      if (allVariations.length === 0) {
-        toast({
-          title: "Erreur",
-          description: "Veuillez ajouter au moins une variation avec du stock.",
-          variant: "destructive",
-        });
-        setIsSubmitting(false);
-        return;
+      // Validate selectedColors
+      if (selectedColors.length === 0) {
+        throw new Error("At least one color must be selected");
       }
 
-      const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        formData.append(key, value.toString());
-      });
-      formData.append("variations", JSON.stringify(allVariations));
-      previewImages.forEach((file) => {
-        formData.append("images", file);
-      });
+      // Ensure sizes values are numbers
+      const validatedVariations = Object.fromEntries(
+        Object.entries(variations).map(([color, sizes]) => [
+          color,
+          Object.fromEntries(
+            Object.entries(sizes).map(([size, stock]) => [size, Number(stock)])
+          ),
+        ])
+      );
 
-      const res = await fetch("http://localhost:5000/products/product", {
-        method: "POST",
-        body: formData,
+      // Extract files from PreviewImage
+      const imageFiles = previewImages
+        .map((img) => img.file)
+        .filter((file): file is File => file !== undefined);
+
+      const formDataToSend = buildFormData(
+        {
+          name: values.name,
+          collection: values.collection,
+          price: values.price,
+          description: values.description,
+          category: values.category,
+          sale: values.sale,
+          variations: validatedVariations,
+          images: imageFiles,
+        },
+        selectedColors
+      );
+
+      // Log FormData for debugging
+      const formDataEntries = Object.fromEntries(formDataToSend);
+      console.log("FormData sent:", JSON.stringify(formDataEntries, null, 2));
+
+      const API_BASE_URL = "http://localhost:5000/products/product";
+      const url =
+        isEdit && product?._id
+          ? `${API_BASE_URL}/${product._id}`
+          : API_BASE_URL;
+
+      const res = await fetch(url, {
+        method: isEdit ? "PUT" : "POST",
+        body: formDataToSend,
       });
 
       if (!res.ok) {
         const errorData = await res.json();
+        console.error("Server error response:", errorData);
         throw new Error(
-          errorData.message || "Erreur lors de la création du produit"
+          errorData.message || "Échec de la soumission du produit"
         );
       }
 
-      const savedProduct = await res.json();
-      toast({
-        title: "Succès",
-        description: "Produit ajouté avec succès !",
+      console.log("Produit enregistré avec succès !");
+    } catch (error: any) {
+      console.error("Erreur lors de la soumission:", {
+        message: error.message,
+        stack: error.stack,
       });
-
-      form.reset();
-      setSelectedColors([]);
-      setVariations({});
-      setPreviewImages([]);
-    } catch (error: unknown) {
-      toast({
-        title: "Erreur",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Une erreur est survenue lors de l'ajout du produit",
-        variant: "destructive",
-      });
+      setErrorMessage(error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -111,13 +143,14 @@ export default function useProductForm() {
 
   return {
     form,
-    selectedColors,
-    setSelectedColors,
     variations,
-    setVariations,
+    selectedColors,
     previewImages,
-    setPreviewImages,
     isSubmitting,
-    handleSubmit: form.handleSubmit(onSubmit),
+    errorMessage,
+    handleSubmit,
+    setSelectedColors,
+    setVariations,
+    setPreviewImages,
   };
 }

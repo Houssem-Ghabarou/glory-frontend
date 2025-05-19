@@ -8,6 +8,8 @@ interface ImagesTabProps {
   setPreviewImages: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
   prevTab: () => void;
   isSubmitting: boolean;
+  isEdit: boolean;
+  errorMessage?: string | null; // Add errorMessage prop
 }
 
 export default function ImagesTab({
@@ -15,10 +17,14 @@ export default function ImagesTab({
   setPreviewImages,
   prevTab,
   isSubmitting,
+  isEdit,
+  errorMessage,
 }: ImagesTabProps) {
   return (
     <div className="space-y-6 py-4">
       <h2 className="text-xl font-bold">Images du produit</h2>
+
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
       <ImageUploader
         previewImages={previewImages}
@@ -34,7 +40,11 @@ export default function ImagesTab({
         >
           Précédent
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          className="hover:bg-black hover:text-white"
+          type="submit"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? (
             <span className="flex items-center">
               <svg
@@ -54,16 +64,16 @@ export default function ImagesTab({
                 <path
                   className="opacity-75"
                   fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                 ></path>
               </svg>
               Envoi en cours...
             </span>
           ) : (
-            <button className="flex items-center cursor-pointer">
+            <span className="flex items-center">
               <Save className="w-4 h-4 mr-2" />
-              Publier le produit
-            </button>
+              {isEdit ? "Enregistrer les modifications" : "Publier le produit"}
+            </span>
           )}
         </Button>
       </div>

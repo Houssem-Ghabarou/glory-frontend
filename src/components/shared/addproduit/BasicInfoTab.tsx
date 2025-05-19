@@ -11,13 +11,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CATEGORIES as DEFAULT_CATEGORIES } from "../../../lib/constants";
-import { FormData } from "../../../lib/types";
+import { ProductFormData } from "../../../lib/types";
 import { UseFormReturn } from "react-hook-form";
 import { Plus, X, Search } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 interface BasicInfoTabProps {
-  form: UseFormReturn<FormData>;
+  form: UseFormReturn<ProductFormData>;
   nextTab: () => void;
 }
 

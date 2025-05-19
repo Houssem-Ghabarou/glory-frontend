@@ -58,7 +58,7 @@ const Admin = () => {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="relative w-full h-[400px]">
+      <div className="relative w-full h-[200px]">
         <Image src={admin} alt="admin" className="object-cover" fill priority />
         <div className="absolute top-5 left-5 z-10">
           <Image src={blacklogo} alt="Logo" width={80} height={80} />
@@ -156,7 +156,7 @@ const Admin = () => {
               <X className="w-6 h-6" />
             </button>
             <div className="p-6">
-              <AddProduit />
+              <AddProduit isEdit={false} />
             </div>
           </div>
         </div>

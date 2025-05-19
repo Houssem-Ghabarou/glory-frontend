@@ -10,6 +10,7 @@ interface VariationsTabProps {
   setVariations: React.Dispatch<React.SetStateAction<Variations>>;
   prevTab: () => void;
   nextTab: () => void;
+  errorMessage?: string | null;
 }
 
 export default function VariationsTab({
@@ -19,10 +20,17 @@ export default function VariationsTab({
   setVariations,
   prevTab,
   nextTab,
+  errorMessage,
 }: VariationsTabProps) {
+  const hasValidVariations = Object.values(variations).some(
+    (sizes) => Object.keys(sizes).length > 0
+  );
+
   return (
     <div className="space-y-6 py-4">
       <h2 className="text-xl font-bold">Variations de produit</h2>
+
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
       <ColorPickerSection
         selectedColors={selectedColors}
@@ -52,6 +60,7 @@ export default function VariationsTab({
           type="button"
           className="hover:bg-black hover:text-white"
           onClick={nextTab}
+          disabled={selectedColors.length === 0 || !hasValidVariations}
         >
           Suivant
         </Button>
