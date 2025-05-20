@@ -185,19 +185,19 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
                 },
               })}
               className={`
-                w-full pl-10 pr-4 py-2 rounded-lg border-2
-                bg-white text-gray-900 placeholder-gray-400
-                focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                transition-all duration-200
-                ${
-                  errors.price
-                    ? "border-red-500 focus:ring-red-500"
-                    : "border-gray-300"
-                }
+          w-full pl-10 pr-4 py-2 rounded-lg border-2
+          bg-white text-gray-900 placeholder-gray-400
+          focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+          transition-all duration-200
+          ${
+            errors.price
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300"
+          }
               `}
             />
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              €
+            <span className="absolute right-13 top-1/2 -translate-y-1/2 text-gray-400">
+              DT
             </span>
           </div>
           {errors.price && (
@@ -206,6 +206,51 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
               className="text-sm text-red-500 animate-fade-in"
             >
               {errors.price.message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="sale" className="text-sm font-medium text-gray-700">
+            Solde
+          </Label>
+          <div className="relative">
+            <Input
+              id="sale"
+              type="number"
+              step="0.01"
+              placeholder="0.00"
+              aria-invalid={errors.sale ? "true" : "false"}
+              aria-describedby={errors.sale ? "sale-error" : undefined}
+              {...register("sale", {
+                min: {
+                  value: 0,
+                  message: "La promotion doit être supérieure ou égale à 0",
+                },
+                max: {
+                  value: 100,
+                  message: "La promotion ne peut pas dépasser 100",
+                },
+              })}
+              className={`
+          w-full pl-10 pr-4 py-2 rounded-lg border-2
+          bg-white text-gray-900 placeholder-gray-400
+          focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+          transition-all duration-200
+          ${
+            errors.sale
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300"
+          }
+              `}
+            />
+            <span className="absolute right-13 top-1/2 -translate-y-1/2 text-gray-400">
+              DT
+            </span>
+          </div>
+          {errors.sale && (
+            <p id="sale-error" className="text-sm text-red-500 animate-fade-in">
+              {errors.sale.message}
             </p>
           )}
         </div>
@@ -327,7 +372,58 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
           </div>
         </div>
       </div>
-
+      {/* Sexe */}
+      <div className="space-y-2">
+        <Label htmlFor="gender" className="text-sm font-medium text-gray-700">
+          Sexe *
+        </Label>
+        <Select
+          value={watch("gender") || ""}
+          onValueChange={(value) => setValue("gender", value)}
+        >
+          <SelectTrigger
+            className={`
+              w-full px-4 py-2 rounded-lg border-2
+              bg-white text-gray-900
+              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              transition-all duration-200
+              ${
+                watch("gender")
+                  ? "border-gray-300"
+                  : "border-gray-300 text-gray-400"
+              }
+            `}
+            aria-label="Sélectionner le sexe"
+          >
+            <SelectValue placeholder="Sélectionner le sexe" />
+          </SelectTrigger>
+          <SelectContent className="z-[9999] bg-white rounded-lg shadow-lg max-h-64 overflow-y-auto">
+            <SelectItem
+              value="Homme"
+              className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+            >
+              Homme
+            </SelectItem>
+            <SelectItem
+              value="Femme"
+              className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+            >
+              Femme
+            </SelectItem>
+            <SelectItem
+              value="Unisexe"
+              className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+            >
+              Unisexe
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        {errors.gender && (
+          <p id="gender-error" className="text-sm text-red-500 animate-fade-in">
+            {errors.gender.message}
+          </p>
+        )}
+      </div>
       {/* Description */}
       <div className="space-y-2">
         <Label

@@ -13,13 +13,17 @@ import {
 } from "../../../lib/types";
 import { UseFormReturn } from "react-hook-form";
 import { Product } from "@/types/models/product";
-
 interface AddProductProps {
   product?: Product;
   isEdit: boolean;
+  closeModal: () => void; // Add closeModal prop
 }
 
-export default function AddProduct({ product, isEdit }: AddProductProps) {
+export default function AddProduct({
+  product,
+  isEdit,
+  closeModal,
+}: AddProductProps) {
   const [activeTab, setActiveTab] = useState<"basic" | "variations" | "images">(
     "basic"
   );
@@ -34,18 +38,7 @@ export default function AddProduct({ product, isEdit }: AddProductProps) {
     setSelectedColors,
     setVariations,
     setPreviewImages,
-  }: {
-    form: UseFormReturn<ProductFormData>;
-    variations: Variations;
-    selectedColors: Color[];
-    previewImages: PreviewImage[];
-    isSubmitting: boolean;
-    errorMessage: string | null;
-    handleSubmit: (e: React.FormEvent) => void;
-    setSelectedColors: React.Dispatch<React.SetStateAction<Color[]>>;
-    setVariations: React.Dispatch<React.SetStateAction<Variations>>;
-    setPreviewImages: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
-  } = useProductForm(product, isEdit);
+  } = useProductForm(product, isEdit, closeModal); // Pass closeModal to useProductForm
 
   const nextTab = () => {
     if (activeTab === "basic") setActiveTab("variations");
@@ -101,7 +94,7 @@ export default function AddProduct({ product, isEdit }: AddProductProps) {
                   prevTab={prevTab}
                   isSubmitting={isSubmitting}
                   isEdit={isEdit}
-                  errorMessage={errorMessage} // Pass errorMessage
+                  errorMessage={errorMessage}
                 />
               )}
             </Tabs>

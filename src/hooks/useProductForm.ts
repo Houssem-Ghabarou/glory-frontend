@@ -4,7 +4,11 @@ import { ProductFormData, Color, PreviewImage, Variations } from "../lib/types";
 import { buildFormData } from "../lib/types";
 import { Product } from "@/types/models/product";
 
-export default function useProductForm(product?: Product, isEdit = false) {
+export default function useProductForm(
+  product?: Product,
+  isEdit = false,
+  closeModal?: () => void
+) {
   const form = useForm<ProductFormData>({
     defaultValues: {
       name: product?.name || "",
@@ -13,6 +17,7 @@ export default function useProductForm(product?: Product, isEdit = false) {
       description: product?.description || "",
       category: product?.category || "",
       sale: product?.sale?.toString() || "0",
+      gender: product?.gender || "",
     },
   });
 
@@ -97,15 +102,12 @@ export default function useProductForm(product?: Product, isEdit = false) {
           description: values.description,
           category: values.category,
           sale: values.sale,
+          gender: values.gender,
           variations: validatedVariations,
           images: imageFiles,
         },
         selectedColors
       );
-
-      // Log FormData for debugging
-      const formDataEntries = Object.fromEntries(formDataToSend);
-      console.log("FormData sent:", JSON.stringify(formDataEntries, null, 2));
 
       const API_BASE_URL = "http://localhost:5000/products/product";
       const url =
@@ -127,6 +129,10 @@ export default function useProductForm(product?: Product, isEdit = false) {
       }
 
       console.log("Produit enregistré avec succès !");
+      // Close modal after successful submission
+      if (closeModal) {
+        closeModal();
+      }
     } catch (error: any) {
       console.error("Erreur lors de la soumission:", {
         message: error.message,

@@ -18,6 +18,7 @@ export interface ProductFormData {
   category: string;
   variations: Variations;
   images: File[];
+  gender?: string;
 }
 
 export interface PreviewImage {
@@ -28,13 +29,15 @@ export interface PreviewImage {
 
 export function buildFormData(
   data: ProductFormData,
-  selectedColors: Color[]
+  selectedColors: Color[],
+  imagesToRemove?: string[]
 ): FormData {
   const formData = new FormData();
 
   formData.append("name", data.name);
   formData.append("collection", data.collection);
   formData.append("price", isNaN(Number(data.price)) ? "0" : data.price);
+  formData.append("gender", data.gender || "");
   formData.append("description", data.description);
   formData.append("category", data.category);
   formData.append(
@@ -59,6 +62,11 @@ export function buildFormData(
   data.images.forEach((file) => {
     formData.append("images", file);
   });
+
+  // Add imagesToRemove if provided
+  if (imagesToRemove && imagesToRemove.length > 0) {
+    formData.append("imagesToRemove", JSON.stringify(imagesToRemove));
+  }
 
   return formData;
 }

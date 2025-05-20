@@ -8,11 +8,13 @@ import { useEffect } from "react";
 interface ImageUploaderProps {
   previewImages: PreviewImage[];
   setPreviewImages: React.Dispatch<React.SetStateAction<PreviewImage[]>>;
+  onRemoveImage?: (url: string) => void; // Callback for removed images
 }
 
 export default function ImageUploader({
   previewImages,
   setPreviewImages,
+  onRemoveImage,
 }: ImageUploaderProps) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -37,13 +39,18 @@ export default function ImageUploader({
         };
       });
       setPreviewImages([...previewImages, ...newFiles]);
-    }, // <-- fermeture onDrop ici
+    },
   });
 
   const removeImage = (index: number) => {
     const newImages = [...previewImages];
-    if (newImages[index].preview) {
-      URL.revokeObjectURL(newImages[index].preview!);
+    const removedImage = newImages[index];
+    if (removedImage.preview) {
+      URL.revokeObjectURL(removedImage.preview);
+    }
+    if (onRemoveImage && removedImage.url && !removedImage.file) {
+      // Only call onRemoveImage for images that were previously saved (no file property)
+      onRemoveImage(removedImage.url);
     }
     newImages.splice(index, 1);
     setPreviewImages(newImages);

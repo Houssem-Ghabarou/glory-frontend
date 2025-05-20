@@ -97,7 +97,11 @@ const PublishedProducts: React.FC<PublishedProductsProps> = ({ products }) => {
               <X className="w-6 h-6" />
             </button>
             <div className="p-6">
-              <AddProduit product={selectedProduct} isEdit={true} />
+              <AddProduit
+                product={selectedProduct}
+                isEdit={true}
+                closeModal={closeModal}
+              />{" "}
             </div>
           </div>
         </div>

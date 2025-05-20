@@ -15,6 +15,7 @@ export interface Product {
   price: number;
   sale: number;
   images: string[];
+  gender?: string;
   category?: string;
   variations: ProductVariation[];
   createdAt?: string;

@@ -72,7 +72,7 @@ export default function ImagesTab({
           ) : (
             <span className="flex items-center">
               <Save className="w-4 h-4 mr-2" />
-              {isEdit ? "Enregistrer les modifications" : "Publier le produit"}
+              {isEdit ? "Enregistrer " : "Publier"}
             </span>
           )}
         </Button>
