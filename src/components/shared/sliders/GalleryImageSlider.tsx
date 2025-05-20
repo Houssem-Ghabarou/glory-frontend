@@ -66,10 +66,10 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
     <ReactImageGallery
       showBullets={true}
       showFullscreenButton={true}
-      showPlayButton={true}
+      showPlayButton={false}
       originalWidth={500}
       originalHeight={500}
-      items={productDetailItem.images}
+      items={productDetailItem?.images}
 
       // thumbnailPosition="left"
     />

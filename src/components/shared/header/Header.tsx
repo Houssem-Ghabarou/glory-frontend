@@ -14,26 +14,39 @@ import useCart from "../cart/useCart";
 const Header = () => {
   const { toggleCart, cartOpen, cartItems } = useCart();
   const itemsLength = cartItems?.length || 0;
+  const totalQuantity =
+    cartItems?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+
+  // Track both length and total quantity
   const prevItemsLength = useRef(itemsLength);
+  const prevTotalQuantity = useRef(totalQuantity);
   const [animate, setAnimate] = useState(false);
 
   const isMobile = useIsMobile();
   const t = useTranslations("header");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
-  // Animation effect when cart items change
+  // Animation effect when cart items or quantities change
   useEffect(() => {
-    if (itemsLength > 0 && itemsLength !== prevItemsLength.current) {
+    // Trigger animation if there are items AND either length or total quantity changed
+    if (
+      totalQuantity > 0 &&
+      (itemsLength !== prevItemsLength.current ||
+        totalQuantity !== prevTotalQuantity.current)
+    ) {
       setAnimate(true);
       const timer = setTimeout(() => setAnimate(false), 1000);
       return () => clearTimeout(timer);
     }
-    prevItemsLength.current = itemsLength;
-  }, [itemsLength]);
 
+    // Update refs
+    prevItemsLength.current = itemsLength;
+    prevTotalQuantity.current = totalQuantity;
+  }, [itemsLength, totalQuantity]);
   useEffect(() => {
     if (!isMobile) {
       setIsMenuOpen(false);
@@ -73,7 +86,14 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
+  if (!hydrated) {
+    // Render nothing or fallback on server and before hydration
+    return null;
+  }
   return (
     <header
       className={`z-20 ${

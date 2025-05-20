@@ -16,9 +16,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedColor, setSelectedColor] = useState(uniqueColors[0]);
 
   const availableSizes = useMemo(() => {
-    return product.variations
-      .filter((v) => v.color === selectedColor)
-      .map((v) => v.size);
+    const variation = product.variations.find((v) => v.color === selectedColor);
+    if (!variation) return [];
+    return Object.entries(variation.sizes)
+      .filter(([_, quantity]) => Number(quantity) > 0)
+      .map(([size]) => size);
   }, [product, selectedColor]);
 
   const [selectedSize, setSelectedSize] = useState(availableSizes[0]);
@@ -63,10 +65,18 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             selectedColor={selectedColor}
             onSelect={(color) => {
               setSelectedColor(color);
-              const sizes = product.variations
-                .filter((v) => v.color === color)
-                .map((v) => v.size);
-              setSelectedSize(sizes[0] || "");
+
+              const variation = product.variations.find(
+                (v) => v.color === color
+              );
+              if (variation) {
+                const availableSize = Object.entries(variation.sizes).find(
+                  ([_, quantity]) => Number(quantity) > 0
+                );
+                setSelectedSize(availableSize?.[0] || "");
+              } else {
+                setSelectedSize("");
+              }
             }}
           />
 

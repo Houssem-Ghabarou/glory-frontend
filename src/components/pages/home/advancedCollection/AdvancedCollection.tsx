@@ -8,7 +8,6 @@ const AdvancedCollection = async () => {
     query: filterSectionQuery,
     params: {},
   });
-  console.log(filtredSections, "filtredSections");
   return (
     <div className="flex flex-col gap-8 w-full items-stretch">
       {filtredSections?.map((section) => {

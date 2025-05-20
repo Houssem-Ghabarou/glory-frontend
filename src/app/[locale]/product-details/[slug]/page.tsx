@@ -2,6 +2,7 @@ import { pagesMargin } from "@/lib/tailwind/classNames";
 import ProductDetail from "@/components/pages/product-details/ProductDetails";
 import { getProductDetailsById } from "@/lib/api/productDetails";
 import { notFound } from "next/navigation";
+import AdvancedCollection from "@/components/pages/home/advancedCollection/AdvancedCollection";
 export default async function ProductDetailPage({
   params,
 }: {
@@ -17,15 +18,14 @@ export default async function ProductDetailPage({
   let product;
   try {
     product = await getProductDetailsById(id);
-    console.log("Product details:", product);
   } catch (error) {
-    console.error("Error fetching product details:", error);
     return notFound();
   }
 
   return (
     <div className={`min-h-screen ${pagesMargin}`}>
       <ProductDetail product={product} />
+      <AdvancedCollection />
     </div>
   );
 }

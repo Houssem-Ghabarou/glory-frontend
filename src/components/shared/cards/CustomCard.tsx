@@ -3,7 +3,6 @@ import Image from "next/image";
 import { imagesize } from "@/lib/tailwind/classNames";
 import AddToCartIcon from "@/assets/icons/add-to-cart.svg";
 import useCart from "../cart/useCart";
-import slugify from "slugify";
 
 // next router
 import { redirect } from "next/navigation";

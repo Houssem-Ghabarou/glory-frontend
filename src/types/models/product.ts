@@ -1,7 +1,7 @@
 // types/models/product.ts
 
 export interface ProductVariation {
-  size: string;
+  sizes: string;
   color: string;
   stock: number;
 }

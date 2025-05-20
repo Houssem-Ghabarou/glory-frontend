@@ -9,7 +9,6 @@ export default function ColorSelector({
   selectedColor,
   onSelect,
 }: ColorSelectorProps) {
-  console.log(colors, " coloooooooors");
   return (
     <div>
       <h2 className="text-sm font-medium text-gray-900">Color</h2>

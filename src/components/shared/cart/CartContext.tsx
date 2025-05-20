@@ -1,43 +1,103 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
-import { Product } from "@/types/models/product";
+import { CartItem } from "@/types/cart";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 type CartContextType = {
-  cartItems: Product[];
-  addItem: (item: Product) => void;
-  removeItem: (id: string) => void;
+  cartItems: CartItem[];
+  addItem: (item: CartItem) => void;
+  removeItem: (id: string, color: string, size: string) => void;
   clearCart: () => void;
   totalPrice: number;
   cartOpen: boolean;
   toggleCart: () => void;
+  updateQuantity: (
+    id: string,
+    color: string,
+    size: string,
+    quantity: number
+  ) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "myApp_cartItems"; // Change key as you want
+const CART_OPEN_KEY = "myApp_cartOpen";
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [cartItems, setCartItems] = useState<Product[]>([]);
-  //cartOpen
-  const [cartOpen, setCartOpen] = useState(false);
+  // Initialize cartItems from localStorage or empty array
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    if (typeof window === "undefined") return []; // SSR safe
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
 
-  const toggleCart = () => setCartOpen((prev) => !prev);
+  const [cartOpen, setCartOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const storedOpen = localStorage.getItem(CART_OPEN_KEY);
+    return storedOpen ? JSON.parse(storedOpen) : false;
+  });
 
-  const addItem = (item: Product) => {
+  // Save cartItems to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  // Save cartOpen to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(CART_OPEN_KEY, JSON.stringify(cartOpen));
+  }, [cartOpen]);
+
+  const toggleCart = () => setCartOpen((prev: boolean) => !prev);
+
+  const addItem = (item: CartItem) => {
     setCartItems((prev) => {
-      const existing = prev.find((i) => i._id === item._id);
+      // Find existing item with same _id, color, and size
+      const existing = prev.find(
+        (i) =>
+          i._id === item._id && i.color === item.color && i.size === item.size
+      );
+
       if (existing) {
         return prev.map((i) =>
-          i._id === item._id
+          i._id === item._id && i.color === item.color && i.size === item.size
             ? { ...i, quantity: i.quantity + item.quantity }
             : i
         );
       }
+
       return [...prev, item];
     });
   };
 
-  const removeItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item._id !== id));
+  const updateQuantity = (
+    id: string,
+    color: string,
+    size: string,
+    quantity: number
+  ) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item._id === id && item.color === color && item.size === size
+          ? { ...item, quantity: Math.max(1, quantity) }
+          : item
+      )
+    );
+  };
+
+  const removeItem = (id: string, color: string, size: string) => {
+    setCartItems((prev) =>
+      prev.filter(
+        (item) =>
+          !(item._id === id && item.color === color && item.size === size)
+      )
+    );
   };
 
   const clearCart = () => setCartItems([]);
@@ -57,6 +117,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         totalPrice,
         cartOpen,
         toggleCart,
+        updateQuantity,
       }}
     >
       {children}
