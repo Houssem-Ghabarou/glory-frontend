@@ -28,7 +28,7 @@ const PublishedProducts: React.FC<PublishedProductsProps> = ({ products }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
       {products.map((product) => {
-        const hasSale = product.sale && product.sale !== 0;
+        const hasSale = typeof product.sale === "number" && product.sale > 0;
         const discountPercent = hasSale
           ? Math.round(100 - (product.sale / product.price) * 100)
           : 0;
@@ -40,7 +40,7 @@ const PublishedProducts: React.FC<PublishedProductsProps> = ({ products }) => {
           >
             {/* Image container */}
             <div className="relative w-full h-40 bg-gray-100 mb-4 flex items-center justify-center overflow-hidden rounded">
-              {hasSale && (
+              {hasSale && discountPercent > 0 && (
                 <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded font-semibold z-10">
                   -{discountPercent}%
                 </div>

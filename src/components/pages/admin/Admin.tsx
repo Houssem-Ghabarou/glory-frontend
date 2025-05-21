@@ -16,6 +16,7 @@ const Admin = () => {
   const [selectedTab, setSelectedTab] = useState<"publie" | "commande">(
     "publie"
   );
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const publieRef = useRef<HTMLButtonElement | null>(null);
@@ -24,6 +25,14 @@ const Admin = () => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,25 +53,29 @@ const Admin = () => {
   }, [selectedTab]);
 
   useEffect(() => {
-    const updateUnderline = () => {
-      const ref = selectedTab === "publie" ? publieRef : commandeRef;
-      if (ref.current) {
-        setUnderlineStyle({
-          left: ref.current.offsetLeft,
-          width: ref.current.offsetWidth,
-        });
+    const fetchData = async () => {
+      if (selectedTab === "publie") {
+        await fetchProducts();
+      } else {
+        try {
+          const data = await getOrders();
+          setOrders(data);
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 
-    updateUnderline();
-
-    // Update underline position on window resize
-    window.addEventListener("resize", updateUnderline);
-    return () => window.removeEventListener("resize", updateUnderline);
+    fetchData();
   }, [selectedTab]);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = async () => {
+    setIsModalOpen(false);
+    if (selectedTab === "publie") {
+      await fetchProducts(); // Actualise les produits
+    }
+  };
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
