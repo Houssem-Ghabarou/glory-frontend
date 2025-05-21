@@ -8,12 +8,16 @@ export interface OrderItem {
 }
 
 export interface CustomerInfo {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  gouvernourat: string;
-  ville: string;
-  address: string;
   phone: string;
+  address1: string;
+  address2?: string;
+  governorate: string;
+  // ville: string; // C
+  zipCode: string;
+  agreeToTerms?: boolean;
 }
 
 export type OrderStatus = "Pending" | "Cancelled" | "Completed";

@@ -71,7 +71,9 @@ const OrdersTable: React.FC<Props> = ({ orders }) => {
                       />
                     )}
                 </td>
-                <td className="p-3">{order.customerInfo.name}</td>
+                <td className="p-3">
+                  {order.customerInfo.firstName} {order.customerInfo.lastName}
+                </td>
                 <td className="hidden md:table-cell p-3">
                   {order.customerInfo.phone}
                 </td>
@@ -83,7 +85,8 @@ const OrdersTable: React.FC<Props> = ({ orders }) => {
                 </td>
                 <td className="p-3">{order.total} dt</td>
                 <td className="hidden md:table-cell p-3">
-                  {order.customerInfo.gouvernourat}, {order.customerInfo.ville}
+                  {order.customerInfo.governorate},{" "}
+                  {order.customerInfo.address1}
                 </td>
                 <td className="hidden md:table-cell p-3">
                   <input
