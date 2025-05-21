@@ -25,7 +25,6 @@ const Collections = ({ products }: CollectionsProps) => {
     const filtered = filteredProducts.filter((product) =>
       product?.name?.toLowerCase()?.includes(searchTerm.toLowerCase())
     );
-    console.log(filtered, "filtered");
     if (searchTerm === "") {
       setSearchedOnFilter([]);
     } else {

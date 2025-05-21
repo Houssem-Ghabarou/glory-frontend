@@ -1,18 +1,23 @@
 "use client";
 
+import { Order } from "@/types/models/order";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-export default function OrderComplete() {
-  const [orderNumber, setOrderNumber] = useState("");
+import useCart from "../shared/cart/useCart";
+interface OrderCompleteProps {
+  orderNumber: Order["orderNumber"];
+}
+export default function OrderComplete({ orderNumber }: OrderCompleteProps) {
+  const { clearCart } = useCart();
 
   useEffect(() => {
-    // Generate a random order number for demo purposes
-    const randomOrderNumber = Math.floor(
-      10000000 + Math.random() * 90000000
-    ).toString();
-    setOrderNumber(randomOrderNumber);
+    // Wait a few seconds before clearing the cart after order confirmation
+    const timer = setTimeout(() => {
+      clearCart();
+    }, 1000); // 3 seconds delay
+
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
   }, []);
 
   return (
@@ -51,16 +56,10 @@ export default function OrderComplete() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="/"
+              href="/collections"
               className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors duration-200"
             >
               Continue Shopping
-            </Link>
-            <Link
-              href="/account/orders"
-              className="px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200"
-            >
-              View Order Status
             </Link>
           </div>
         </div>

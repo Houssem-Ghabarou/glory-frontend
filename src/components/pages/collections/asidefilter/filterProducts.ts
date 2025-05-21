@@ -46,9 +46,14 @@ function filterProducts(
       filterState.size.values.length > 0
     ) {
       const selectedSizes = filterState.size.values as string[];
+      console.log(product.variations, "product.variations");
       const hasSize = product.variations.some((v) =>
-        selectedSizes.includes(v.size)
+        Object.keys(v.sizes).some(
+          //@ts-ignore
+          (size) => selectedSizes.includes(size) && v.sizes?.[size] > 0
+        )
       );
+      console.log(hasSize, "hasSize");
       if (!hasSize) return false;
     }
 

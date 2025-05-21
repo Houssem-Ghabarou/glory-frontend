@@ -12,7 +12,7 @@ const ProductsView = ({ products, handleSearch }: ProductsViewProps) => {
     <div className="flex-1">
       <div className="flex flex-col gap-4">
         <ProductHeader handleSearch={handleSearch} products={products} />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2  xl:grid-cols-3 gap-4">
           {products?.map((item, index) => (
             <CustomCard
               item={item}

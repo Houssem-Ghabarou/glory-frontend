@@ -40,9 +40,10 @@ export const generateFilterConfigs = (products: Product[]): FilterConfig[] => {
     if (product.price > maxPrice) maxPrice = product.price;
 
     for (const variation of product.variations || []) {
+      console.log(variation, "variation");
       // Sizes
-      if (variation.size) {
-        sizesMap.set(variation.size, (sizesMap.get(variation.size) || 0) + 1);
+      if (variation.sizes) {
+        sizesMap.set(variation.sizes, (sizesMap.get(variation.sizes) || 0) + 1);
       }
 
       // Colors
@@ -79,13 +80,13 @@ export const generateFilterConfigs = (products: Product[]): FilterConfig[] => {
   ];
 
   return [
-    {
-      id: "availability",
-      title: "Availability",
-      type: "checkbox",
-      options: availabilityOptions,
-      defaultOpen: true,
-    },
+    // {
+    //   id: "availability",
+    //   title: "Availability",
+    //   type: "checkbox",
+    //   options: availabilityOptions,
+    //   defaultOpen: true,
+    // },
     {
       id: "price",
       title: "Price Range",

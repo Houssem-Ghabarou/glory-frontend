@@ -1,3 +1,5 @@
+"use client";
+
 import type React from "react";
 import Image from "next/image";
 import { imagesize } from "@/lib/tailwind/classNames";
@@ -7,7 +9,7 @@ import useCart from "../cart/useCart";
 // next router
 import { redirect } from "next/navigation";
 import { handleCardClick } from "@/lib/navigation/navigateToDetails";
-import { Product } from "@/types/models/product";
+import type { Product } from "@/types/models/product";
 interface CustomCardProps {
   item: Product;
   index: number;
@@ -23,7 +25,16 @@ const CustomCard: React.FC<CustomCardProps> = ({
   labelEnabledPhone,
   addToCartEnabled,
 }) => {
+  console.log(item, "item");
   const { addItem, removeItem, cartItems, totalPrice } = useCart();
+
+  // Static color options for demonstration
+  const availableColors = [
+    { name: "Black", hex: "#000000" },
+    { name: "White", hex: "#FFFFFF" },
+    { name: "Red", hex: "#FF3B30" },
+    { name: "Blue", hex: "#007AFF" },
+  ];
 
   return (
     <div className="flex flex-col w-full h-full group">
@@ -52,16 +63,36 @@ const CustomCard: React.FC<CustomCardProps> = ({
           </div>
         )}
 
-        {item?.onSale && (
+        {item?.sale && (
           <div className="absolute top-0 right-0 bg-red-600 text-white text-xs font-medium py-1 px-2 m-2">
-            SALE 20%
+            {/* it s the price  */}-
+            {Math.round(((item?.price - item?.sale) / item?.price) * 100)}%
           </div>
         )}
+
+        {/* Color options */}
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-1.5 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-full transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+          {availableColors.map((color, colorIndex) => (
+            <div
+              key={colorIndex}
+              className="relative group/color"
+              aria-label={`${color.name} color option`}
+            >
+              <div
+                className="w-4 h-4 rounded-full cursor-pointer transition-transform hover:scale-125 border border-gray-200"
+                style={{ backgroundColor: color.hex }}
+              />
+              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 text-xs font-medium bg-black text-white px-1.5 py-0.5 rounded opacity-0 group-hover/color:opacity-100 whitespace-nowrap pointer-events-none">
+                {color.name}
+              </span>
+            </div>
+          ))}
+        </div>
 
         {/* Add to cart button with hover effect */}
         {addToCartEnabled && (
           <button
-            className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2 button-bg-secondary p-2 shadow-md transition-all duration-300 group-hover:bottom-4 hover:scale-110"
+            className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2 button-bg-secondary p-2 shadow-md transition-all duration-300 group-hover:bottom-12 hover:scale-110"
             onClick={() => {
               addItem(item);
             }}
@@ -79,9 +110,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
       {/* Text Content */}
       {labelEnabled && (
         <div
-          className={`flex flex-col gap-2 pt-4 ${
-            labelEnabledPhone ? "lg:hidden" : ""
-          }`}
+          className={`flex flex-col gap-2 pt-4 ${labelEnabledPhone ? "lg:hidden" : ""}`}
         >
           <div className="text-[15px] font-medium text-primary-gray">
             {item?.category || "Category"}
@@ -91,7 +120,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
               {item?.name || "Item"}
             </div>
             <div className="text-[15px] font-[500] text-theme">
-              {item?.price || "Price"}$
+              {item?.sale ? `${item?.sale}$` : `${item?.price || "Price"}$`}
             </div>
           </div>
         </div>

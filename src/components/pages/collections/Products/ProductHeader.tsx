@@ -21,7 +21,10 @@ const ProductHeader = ({ handleSearch, products }: ProductHeaderProps) => {
       </div>
       {/*  */}
       <div className=" xl:w-[60%]">
-        <CategoryNavigation onCategoryClick={handleCategoryClick} />
+        <CategoryNavigation
+          onCategoryClick={handleCategoryClick}
+          products={products}
+        />
       </div>
     </div>
   );

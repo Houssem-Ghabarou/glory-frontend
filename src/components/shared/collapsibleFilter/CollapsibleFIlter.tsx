@@ -114,6 +114,7 @@ export function CollapsibleFilter({
 
           {type === "size" && (
             <SizeSelector
+              //@ts-ignore
               options={options.map(({ id, label }) => ({ id, label }))}
               selectedSizes={selectedOptions}
               onChange={handleSizeChange}

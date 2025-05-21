@@ -8,8 +8,13 @@ import ShippingForm from "@/components/checkout/shipping-form";
 import OrderReview from "@/components/checkout/order-review";
 import OrderComplete from "@/components/checkout/order-complete";
 import { placeOrder } from "@/lib/api/placeOrder";
+import { Order } from "@/types/models/order";
+import toast from "react-hot-toast";
+import { error } from "console";
 
 // Checkout form data type
+// Calculate shipping and total
+const shippingCost = 5.0;
 export interface CheckoutFormData {
   firstName: string;
   lastName: string;
@@ -24,11 +29,12 @@ export interface CheckoutFormData {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cartItems, totalPrice } = useCart();
+  const { cartItems, totalPrice, clearCart } = useCart();
   const [formStep, setFormStep] = useState(1);
   const [isHydrated, setIsHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPending, startTransition] = useTransition();
+  const [orderNumber, setOrderNumber] = useState("");
 
   const [formData, setFormData] = useState<CheckoutFormData>({
     firstName: "",
@@ -70,37 +76,28 @@ export default function CheckoutPage() {
     window.scrollTo(0, 0);
   };
 
-  // Handle order submission
-  // const submitOrder = () => {
-  //   // Here you would typically send the order to your backend
-  //   console.log("Order submitted:", {
-  //     items: cartItems,
-  //     customerInfo: formData,
-  //   });
-  //   goToNextStep();
-
-  //   // For demo purposes, redirect after a delay
-  //   setTimeout(() => {
-  //     router.push("/order-confirmation");
-  //   }, 3000);
-  // };
-
   const submitOrder = () => {
     startTransition(() => {
       placeOrder({
         items: cartItems,
         customerInfo: formData,
       }).then((res) => {
+        console.log("res", res);
         if (res.success) {
-          router.push("/order-confirmation"); // or `/order-confirmation?orderId=${res.data.id}`
+          const data = res.data as Order;
+          setOrderNumber(data?.orderNumber);
+
+          goToNextStep();
+          // router.push(`/order-confirmation?orderNumber=${data?.orderNumber}`); // or `/order-confirmation?orderId=${res.data.id}`
         } else {
-          alert(res.message);
+          toast.error(
+            res.message || "An error occurred while placing the order"
+          );
         }
       });
     });
   };
-  // Calculate shipping and total
-  const shippingCost = 5.0;
+
   const orderTotal = totalPrice + shippingCost;
 
   // Loading state
@@ -122,7 +119,7 @@ export default function CheckoutPage() {
   }
 
   // Redirect if cart is empty
-  if (cartItems.length === 0) {
+  if (cartItems.length === 0 && formStep !== 3) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <div className="text-center max-w-md mx-auto p-6 rounded-lg border shadow-sm">
@@ -220,7 +217,7 @@ export default function CheckoutPage() {
             />
           )}
 
-          {formStep === 3 && <OrderComplete />}
+          {formStep === 3 && <OrderComplete orderNumber={orderNumber} />}
         </div>
       </div>
     </div>

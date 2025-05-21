@@ -212,7 +212,10 @@ export default function CartModal() {
             <button
               className="w-full py-3 px-4 bg-black hover:bg-gray-800 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               disabled={cartItems.length === 0}
-              onClick={() => router.push("/checkout")}
+              onClick={() => {
+                router.push("/checkout");
+                toggleCart();
+              }}
             >
               <ShoppingCart className="h-4 w-4" />
               Proceed to Checkout
