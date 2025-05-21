@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 import useCart from "@/components/shared/cart/useCart";
 import ShippingForm from "@/components/checkout/shipping-form";
 import OrderReview from "@/components/checkout/order-review";
 import OrderComplete from "@/components/checkout/order-complete";
+import { placeOrder } from "@/lib/api/placeOrder";
 
 // Checkout form data type
 export interface CheckoutFormData {
@@ -27,6 +28,7 @@ export default function CheckoutPage() {
   const [formStep, setFormStep] = useState(1);
   const [isHydrated, setIsHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
 
   const [formData, setFormData] = useState<CheckoutFormData>({
     firstName: "",
@@ -69,17 +71,34 @@ export default function CheckoutPage() {
   };
 
   // Handle order submission
+  // const submitOrder = () => {
+  //   // Here you would typically send the order to your backend
+  //   console.log("Order submitted:", {
+  //     items: cartItems,
+  //     customerInfo: formData,
+  //   });
+  //   goToNextStep();
+
+  //   // For demo purposes, redirect after a delay
+  //   setTimeout(() => {
+  //     router.push("/order-confirmation");
+  //   }, 3000);
+  // };
+
   const submitOrder = () => {
-    // Here you would typically send the order to your backend
-    console.log("Order submitted:", { items: cartItems, shipping: formData });
-    goToNextStep();
-
-    // For demo purposes, redirect after a delay
-    setTimeout(() => {
-      router.push("/order-confirmation");
-    }, 3000);
+    startTransition(() => {
+      placeOrder({
+        items: cartItems,
+        customerInfo: formData,
+      }).then((res) => {
+        if (res.success) {
+          router.push("/order-confirmation"); // or `/order-confirmation?orderId=${res.data.id}`
+        } else {
+          alert(res.message);
+        }
+      });
+    });
   };
-
   // Calculate shipping and total
   const shippingCost = 5.0;
   const orderTotal = totalPrice + shippingCost;
