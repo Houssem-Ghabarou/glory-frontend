@@ -3,6 +3,7 @@
 import "@/styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import type { Metadata } from "next";
+import { beatriceFonts } from "@/assets/fonts";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Glory",
@@ -15,7 +16,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={beatriceFonts.variable}>
       <body className="min-h-screen bg-gray-50 text-gray-900">
         <main>{children}</main>
         <Toaster
