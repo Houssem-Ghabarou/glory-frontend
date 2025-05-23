@@ -16,82 +16,57 @@ const Admin = () => {
   const [selectedTab, setSelectedTab] = useState<"publie" | "commande">(
     "publie"
   );
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+
   const publieRef = useRef<HTMLButtonElement | null>(null);
   const commandeRef = useRef<HTMLButtonElement | null>(null);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
-  const fetchProducts = async () => {
+  const fetchData = async () => {
+    setIsLoading(true);
     try {
-      const data = await getProducts();
-      setProducts(data);
+      if (selectedTab === "publie") {
+        const data = await getProducts();
+        setProducts(data);
+      } else {
+        const data = await getOrders();
+        setOrders(data);
+      }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (selectedTab === "publie") {
-          const data = await getProducts();
-          setProducts(data);
-        } else {
-          const data = await getOrders();
-          setOrders(data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [selectedTab]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (selectedTab === "publie") {
-        await fetchProducts();
-      } else {
-        try {
-          const data = await getOrders();
-          setOrders(data);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    };
-
     fetchData();
   }, [selectedTab]);
 
   const openModal = () => setIsModalOpen(true);
+
   const closeModal = async () => {
     setIsModalOpen(false);
     if (selectedTab === "publie") {
-      await fetchProducts(); // Actualise les produits
+      await fetchData();
     }
   };
+
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
     <div className="w-full">
       {/* Header */}
       <div className="relative w-full h-[120px] sm:h-[150px] md:h-[200px]">
-        <Image
-          src={admin || "/placeholder.svg"}
-          alt="admin"
-          className="object-cover"
-          fill
-          priority
-        />
+        <Image src={admin} alt="admin" className="object-cover" fill priority />
         <div className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-5 md:left-5 z-10">
           <Image
-            src={blacklogo || "/placeholder.svg"}
+            src={blacklogo}
             alt="Logo"
             width={50}
             height={50}
@@ -121,15 +96,10 @@ const Admin = () => {
             <Menu className="w-5 h-5" />
             <span>Menu</span>
           </button>
-          <Image
-            src={blacklogo || "/placeholder.svg"}
-            alt="Logo"
-            width={40}
-            height={40}
-          />
+          <Image src={blacklogo} alt="Logo" width={40} height={40} />
         </div>
 
-        {/* Sidebar - Hidden on mobile unless toggled */}
+        {/* Sidebar */}
         <aside
           className={`${
             isSidebarOpen ? "block" : "hidden"
@@ -152,7 +122,7 @@ const Admin = () => {
             </li>
           </ul>
           <Image
-            src={blacklogo || "/placeholder.svg"}
+            src={blacklogo}
             alt="Logo"
             width={60}
             height={60}
@@ -187,7 +157,6 @@ const Admin = () => {
               >
                 Commandes
               </button>
-
               <div
                 className="absolute bottom-0 h-[3px] bg-black transition-all duration-300 ease-in-out"
                 style={{
@@ -198,10 +167,23 @@ const Admin = () => {
             </div>
           </div>
 
-          {selectedTab === "publie" ? (
-            <PublishedProducts products={products} />
-          ) : (
+          {/* Loader + Data Display */}
+          {isLoading ? (
+            <div className="text-center text-gray-500 py-10">Chargement...</div>
+          ) : selectedTab === "publie" ? (
+            products.length > 0 ? (
+              <PublishedProducts products={products} />
+            ) : (
+              <div className="text-center text-gray-500 py-10">
+                Aucun produit publié.
+              </div>
+            )
+          ) : orders.length > 0 ? (
             <OrdersTable orders={orders} />
+          ) : (
+            <div className="text-center text-gray-500 py-10">
+              Aucune commande reçue.
+            </div>
           )}
         </main>
       </div>
@@ -217,7 +199,7 @@ const Admin = () => {
               <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <div className="p-3 sm:p-4 md:p-6">
-              <AddProduit isEdit={false} closeModal={closeModal} />{" "}
+              <AddProduit isEdit={false} closeModal={closeModal} />
             </div>
           </div>
         </div>
