@@ -8,7 +8,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import facebookicon from "@/assets/icons/facebook-icon.svg";
 import googleicon from "@/assets/icons/google-icon.svg";
 import { useAuth } from "../../../context/AuthContext";
-import { login as loginUser } from "@/lib/auth";
+import { login as loginUser } from "@/lib/api/auth";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -30,7 +30,7 @@ const Login = () => {
     try {
       const result = await loginUser(email, password);
 
-      if (result?.success) {
+      if (result?.success && result?.user) {
         setUser(result?.user);
 
         toast.success("Connexion réussie !");

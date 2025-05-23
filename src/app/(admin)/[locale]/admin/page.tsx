@@ -1,12 +1,13 @@
+"use client";
+
 import React from "react";
 import Admin from "../../../../components/pages/admin/Admin";
+import ProtectedAdminRoute from "@/components/pages/admin/ProtectedAdminRoute";
 
-async function Adminpages() {
-  const data = await fetch(
-    "https://mocki.io/v1/d7f0ab16-c797-41b9-ba33-90ba8c06eb05"
+export default function Adminpages() {
+  return (
+    <ProtectedAdminRoute>
+      <Admin />
+    </ProtectedAdminRoute>
   );
-  const res = await data.json();
-  return <Admin />;
 }
-
-export default Adminpages;

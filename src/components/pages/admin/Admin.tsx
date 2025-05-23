@@ -11,6 +11,8 @@ import PublishedProducts from "../../shared/PublishedProducts/PublishedProducts"
 import OrdersTable from "../../shared/OrdersTable/OrdersTable";
 import AddProduit from "../../shared/addproduit/AddProduit";
 import { X, Menu, ChevronRight } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Admin = () => {
   const [selectedTab, setSelectedTab] = useState<"publie" | "commande">(
@@ -26,6 +28,16 @@ const Admin = () => {
   const publieRef = useRef<HTMLButtonElement | null>(null);
   const commandeRef = useRef<HTMLButtonElement | null>(null);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login"); // ou une page publique
+    } else if (user.role !== "admin") {
+      router.push("/home"); // redirection si ce n’est pas un admin
+    }
+  }, [user]);
 
   const fetchData = async () => {
     setIsLoading(true);
