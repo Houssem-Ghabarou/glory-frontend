@@ -1,18 +1,10 @@
 "use client";
-import type React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import type { Order } from "@/types/models/order";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { X, ChevronRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ChevronRight } from "lucide-react";
 import { OrderDetailsModal } from "../OrderDetailsModalProps/OrderDetailsModalProps";
+import { updateOrderStatus, cancelOrder } from "../../../lib/api/placeOrder";
 
 type Props = {
   orders: Order[];
@@ -20,6 +12,7 @@ type Props = {
 
 const OrdersTable: React.FC<Props> = ({ orders }) => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [localOrders, setLocalOrders] = useState<Order[]>(orders);
 
   const handleRowClick = (order: Order) => {
     setSelectedOrder(order);
@@ -27,6 +20,36 @@ const OrdersTable: React.FC<Props> = ({ orders }) => {
 
   const closeModal = () => {
     setSelectedOrder(null);
+  };
+
+  // Confirmation de la commande (status "Pending")
+  const handleConfirm = async (orderId: string) => {
+    const result = await updateOrderStatus(orderId, "Pending");
+    if (result.success) {
+      setLocalOrders((prev) =>
+        prev.map((order) =>
+          order._id === orderId ? { ...order, status: "Pending" } : order
+        )
+      );
+      alert("Commande confirmée !");
+    } else {
+      alert("Erreur : " + result.message);
+    }
+  };
+
+  // Annulation de la commande (status "Cancelled")
+  const handleCancel = async (orderId: string) => {
+    const result = await cancelOrder(orderId);
+    if (result.success) {
+      setLocalOrders((prev) =>
+        prev.map((order) =>
+          order._id === orderId ? { ...order, status: "Cancelled" } : order
+        )
+      );
+      alert("Commande annulée !");
+    } else {
+      alert("Erreur : " + result.message);
+    }
   };
 
   return (
@@ -43,12 +66,12 @@ const OrdersTable: React.FC<Props> = ({ orders }) => {
               <th className="hidden md:table-cell p-3 text-left">
                 Localisation
               </th>
-              <th className="hidden md:table-cell p-3 text-left">Livré</th>
+              <th className="p-3 text-left">Actions</th>
               <th className="md:hidden p-3 text-left"></th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {localOrders.map((order) => (
               <tr
                 key={order._id}
                 className="border-b hover:bg-gray-50 cursor-pointer transition-colors"
@@ -88,13 +111,41 @@ const OrdersTable: React.FC<Props> = ({ orders }) => {
                   {order.customerInfo.governorate},{" "}
                   {order.customerInfo.address1}
                 </td>
-                <td className="hidden md:table-cell p-3">
-                  <input
-                    type="checkbox"
-                    checked={order.status === "Completed"}
-                    readOnly
-                    onClick={(e) => e.stopPropagation()}
-                  />
+
+                <td className="p-3">
+                  {order.status === "Pending" ||
+                  order.status === "Cancelled" ? (
+                    <span
+                      className={`px-3 py-1 rounded font-semibold ${
+                        order.status === "Pending"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  ) : (
+                    <div className="space-x-2">
+                      <button
+                        className="bg-black text-white px-3 py-1 rounded hover:bg-green-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleConfirm(order._id);
+                        }}
+                      >
+                        Confirmer
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCancel(order._id);
+                        }}
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  )}
                 </td>
                 <td className="md:hidden p-3 text-right">
                   <ChevronRight className="h-5 w-5 text-gray-400" />

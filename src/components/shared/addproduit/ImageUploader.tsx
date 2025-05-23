@@ -49,7 +49,7 @@ export default function ImageUploader({
       URL.revokeObjectURL(removedImage.preview);
     }
     if (onRemoveImage && removedImage.url && !removedImage.file) {
-      // Only call onRemoveImage for images that were previously saved (no file property)
+
       onRemoveImage(removedImage.url);
     }
     newImages.splice(index, 1);

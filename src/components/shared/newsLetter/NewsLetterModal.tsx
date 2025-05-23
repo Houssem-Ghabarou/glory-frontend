@@ -7,6 +7,8 @@ import { X } from "lucide-react";
 import { Input } from "@/components/ui/InputNewsLETTER";
 import Image from "next/image";
 import CLoth1 from "@/assets/images/cloth1.png";
+import { handleNewsletterSubmit } from "../../../lib/api/newsletter";
+
 export default function NewsletterModal() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
@@ -38,17 +40,20 @@ export default function NewsletterModal() {
     }, 500); // Match the exit animation duration
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the email to your API
-    setIsSubmitted(true);
 
-    // Close modal after showing success message
+    await handleNewsletterSubmit(
+      email,
+      () => setIsSubmitted(true), // Succès
+      (errMsg) => console.error("Erreur d'inscription :", errMsg) // Optionnel
+    );
+
+    // Fermer après un succès (ajustable)
     setTimeout(() => {
       handleClose();
     }, 2000);
   };
-
   const handleClickOutside = (e: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       handleClose();

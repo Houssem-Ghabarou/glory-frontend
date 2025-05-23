@@ -1,5 +1,6 @@
 "use server";
-import { poster } from "@/axios/api";
+import { poster, putter } from "@/axios/api";
+import axios from "axios";
 
 interface OrderPayload {
   items: any[]; // or your Item type
@@ -24,6 +25,46 @@ export const placeOrder = async (data: OrderPayload) => {
     return {
       success: false,
       message: error?.response?.data?.message || "Unknown error occurred",
+    };
+  }
+};
+
+export const updateOrderStatus = async (orderId: string, status: string) => {
+  try {
+    const response = await putter(`/orders/order/status/${orderId}`, {
+      status,
+    });
+
+    return { success: true, data: response };
+  } catch (error: any) {
+    console.error(
+      "Update status error:",
+      error?.response?.data || error.message
+    );
+
+    return {
+      success: false,
+      message:
+        error?.response?.data?.message ||
+        "Erreur inconnue lors de la mise à jour",
+    };
+  }
+};
+
+export const cancelOrder = async (orderId: string) => {
+  try {
+    const response = await putter(`/orders/cancelorder/${orderId}`, {});
+    return { success: true, data: response };
+  } catch (error: any) {
+    console.error(
+      "Cancel order error:",
+      error?.response?.data || error.message
+    );
+    return {
+      success: false,
+      message:
+        error?.response?.data?.message ||
+        "Erreur inconnue lors de l'annulation de la commande",
     };
   }
 };

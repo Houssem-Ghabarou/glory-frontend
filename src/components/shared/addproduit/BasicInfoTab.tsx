@@ -88,10 +88,8 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
   );
 
   return (
-    <div className="space-y-6 py-6">
-      <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
-        🛍️ Informations du produit
-      </h2>
+    <div className="space-y-6  py-6">
+      <h2 className="text-2xl font-semibold ">Informations du produit</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Nom */}
@@ -108,7 +106,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
             className={`
               w-full px-4 py-2 rounded-lg border-2
               bg-white text-gray-900 placeholder-gray-400
-              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              focus:ring-2 focus:ring-Black-500 focus:border-Black-500
               transition-all duration-200
               ${
                 errors.name
@@ -145,7 +143,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
             className={`
               w-full px-4 py-2 rounded-lg border-2
               bg-white text-gray-900 placeholder-gray-400
-              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              focus:ring-2 focus:ring-Black-500 focus:border-Black-500
               transition-all duration-200
               ${
                 errors.collection
@@ -187,7 +185,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
               className={`
           w-full pl-10 pr-4 py-2 rounded-lg border-2
           bg-white text-gray-900 placeholder-gray-400
-          focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+          focus:ring-2 focus:ring-Black-500 focus:border-Black-500
           transition-all duration-200
           ${
             errors.price
@@ -235,7 +233,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
               className={`
           w-full pl-10 pr-4 py-2 rounded-lg border-2
           bg-white text-gray-900 placeholder-gray-400
-          focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+          focus:ring-2 focus:ring-Black-500 focus:border-Black-500
           transition-all duration-200
           ${
             errors.sale
@@ -266,7 +264,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
               className={`
                 w-full px-4 py-2 rounded-lg border-2
                 bg-white text-gray-900
-                focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                focus:ring-2 focus:ring-Black-500 focus:border-Black-500
                 transition-all duration-200
                 ${
                   watch("category")
@@ -285,7 +283,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
                     placeholder="Rechercher une catégorie..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 rounded-lg border-2 border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-2 rounded-lg border-2 border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-Black-500 focus:border-Black-500 transition-all duration-200"
                   />
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 </div>
@@ -295,7 +293,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
                   <SelectItem
                     key={category}
                     value={category}
-                    className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+                    className="px-4 py-2 hover:bg-Black-50 cursor-pointer transition-colors duration-150"
                   >
                     {category}
                   </SelectItem>
@@ -319,7 +317,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
                     transition-all duration-200 animate-chip-in
                     ${
                       watch("category") === category
-                        ? "bg-blue-100 text-blue-800"
+                        ? "bg-Black-100 text-Black-800"
                         : "bg-gray-100 text-gray-800"
                     }
                   `}
@@ -359,13 +357,13 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
                     handleAddCategory();
                   }
                 }}
-                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                className="w-full px-4 py-2 rounded-lg border-2 border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-Black-500 focus:border-Black-500 transition-all duration-200"
               />
             </div>
             <Button
               type="button"
               onClick={handleAddCategory}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200"
+              className="px-4 py-2 bg-Black-600 hover:bg-Black-700 text-white rounded-lg transition-all duration-200"
             >
               <Plus className="w-4 h-4" />
             </Button>
@@ -385,7 +383,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
             className={`
               w-full px-4 py-2 rounded-lg border-2
               bg-white text-gray-900
-              focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              focus:ring-2 focus:ring-Black-500 focus:border-Black-500
               transition-all duration-200
               ${
                 watch("gender")
@@ -400,19 +398,19 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
           <SelectContent className="z-[9999] bg-white rounded-lg shadow-lg max-h-64 overflow-y-auto">
             <SelectItem
               value="Homme"
-              className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+              className="px-4 py-2 hover:bg-Black-50 cursor-pointer transition-colors duration-150"
             >
               Homme
             </SelectItem>
             <SelectItem
               value="Femme"
-              className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+              className="px-4 py-2 hover:bg-Black-50 cursor-pointer transition-colors duration-150"
             >
               Femme
             </SelectItem>
             <SelectItem
               value="Unisexe"
-              className="px-4 py-2 hover:bg-blue-50 cursor-pointer transition-colors duration-150"
+              className="px-4 py-2 hover:bg-Black-50 cursor-pointer transition-colors duration-150"
             >
               Unisexe
             </SelectItem>
@@ -442,7 +440,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
           className={`
             w-full px-4 py-2 rounded-lg border-2
             bg-white text-gray-900 placeholder-gray-400
-            focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+            focus:ring-2 focus:ring-Black-500 focus:border-Black-500
             transition-all duration-200 resize-none
             ${
               errors.description
@@ -458,7 +456,7 @@ export default function BasicInfoTab({ form, nextTab }: BasicInfoTabProps) {
         <Button
           type="button"
           onClick={nextTab}
-          className="px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-md"
+          className="hover:bg-black hover:text-white"
         >
           Suivant
         </Button>
